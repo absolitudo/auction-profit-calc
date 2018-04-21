@@ -1,0 +1,7 @@
+## Interface: 50400
+## Author: Metcol
+## Version: 0.8
+## Title: MetcolsAucProfitCalc
+
+frames\mainFrame.xml
+core.lua
