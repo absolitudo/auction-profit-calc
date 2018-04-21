@@ -2,6 +2,7 @@
 ## Author: Metcol
 ## Version: 0.8
 ## Title: MetcolsAucProfitCalc
+## Notes: Helps you to decide what to craft for profit
 
-frames\mainFrame.xml
 core.lua
+frames\mainFrame.xml
