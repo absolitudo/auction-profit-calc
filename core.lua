@@ -1,5 +1,6 @@
 local ns = (select(2, ...))
-ns.frames = {}
+
+ns.frames:initFrames()  
 
 SLASH_AUCPROFITCALC1 = '/apc'
 SlashCmdList['AUCPROFITCALC'] = function(...)

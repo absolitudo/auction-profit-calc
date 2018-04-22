@@ -1,13 +1,21 @@
 local ns = (select(2, ...))
-ns.frames.mainFrame = CreateFrame("Frame", "AucProfitCalc", UIParent)
-ns.frames.mainFrame:SetFrameStrata("BACKGROUND")
+ns.frames = {
+    mainFrame = {}
+}
 
-ns.frames.mainFrame:SetWidth(128)
-ns.frames.mainFrame:SetHeight(64)
-ns.frames.mainFrame:SetPoint("CENTER", UIParent, "CENTER")
+function ns.frames:initFrames()
+    self.mainFrame:initFrame()
+end
 
-ns.frames.mainFrame.texture = ns.frames.mainFrame:CreateTexture('mainFrameBackground')
-ns.frames.mainFrame.texture:SetAllPoints(ns.frames.mainFrame)
-ns.frames.mainFrame.texture:SetTexture(0, 0, 0, 0.8)
+function ns.frames.mainFrame:initFrame()
+    self = CreateFrame("Frame", "AucProfitCalc", UIParent)
+    self:SetFrameStrata("BACKGROUND")
 
-ns.frames.mainFrame:Show()
+    self:SetWidth(500)
+    self:SetHeight(500)
+    self:SetPoint("CENTER", UIParent, "CENTER")
+
+    self.texture = self:CreateTexture('mainFrameBackground')
+    self.texture:SetAllPoints(self)
+    self.texture:SetTexture(0, 0, 0, 0.7)
+end
