@@ -3,19 +3,15 @@ ns.frames = {
     mainFrame = {}
 }
 
-function ns.frames:initFrames()
-    self.mainFrame:initFrame()
+function ns.frames.initFrames()
+    ns.frames.mainFrame:initFrame()
 end
 
 function ns.frames.mainFrame:initFrame()
-    self = CreateFrame("Frame", "AucProfitCalc", UIParent)
-    self:SetFrameStrata("BACKGROUND")
-
-    self:SetWidth(500)
-    self:SetHeight(500)
-    self:SetPoint("CENTER", UIParent, "CENTER")
-
-    self.texture = self:CreateTexture('mainFrameBackground')
-    self.texture:SetAllPoints(self)
-    self.texture:SetTexture(0, 0, 0, 0.7)
+    ns.frames.mainFrame = CreateFrame("Frame", "AucProfitCalc", UIParent, 'BasicFrameTemplate')
+    ns.frames.mainFrame:SetMovable(true)
+    ns.frames.mainFrame:SetWidth(500)
+    ns.frames.mainFrame:SetHeight(500)
+    ns.frames.mainFrame:SetPoint("CENTER", UIParent, "CENTER")
+    ns.frames.mainFrame:Show()
 end
