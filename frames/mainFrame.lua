@@ -1,17 +1,26 @@
 local ns = (select(2, ...))
-ns.frames = {
+local APC = ns
+APC.frames = {
     mainFrame = {}
 }
 
-function ns.frames.initFrames()
-    ns.frames.mainFrame:initFrame()
+function APC.frames.initFrames()
+    APC.frames.mainFrame:initFrame()
 end
 
-function ns.frames.mainFrame:initFrame()
-    ns.frames.mainFrame = CreateFrame("Frame", "AucProfitCalc", UIParent, 'BasicFrameTemplate')
-    ns.frames.mainFrame:SetMovable(true)
-    ns.frames.mainFrame:SetWidth(500)
-    ns.frames.mainFrame:SetHeight(500)
-    ns.frames.mainFrame:SetPoint("CENTER", UIParent, "CENTER")
-    ns.frames.mainFrame:Show()
+function APC.frames.mainFrame:initFrame()
+    APC.frames.mainFrame = CreateFrame("Frame", "AucProfitCalc", UIParent, 'BasicFrameTemplate')
+    APC.frames.mainFrame:SetMovable(true)
+    APC.frames.mainFrame:SetWidth(500)
+    APC.frames.mainFrame:SetHeight(500)
+    APC.frames.mainFrame:SetPoint("CENTER", UIParent, "CENTER")
+    APC.frames.mainFrame:Hide()
+end
+
+function APC.frames.mainFrame:Show()
+    APC.frames.mainFrame:Show()
+end
+
+function APC.frames.mainFrame:Hide()
+    APC.frames.mainFrame:Hide()
 end

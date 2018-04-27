@@ -5,4 +5,5 @@
 ## Notes: Helps you to decide what to craft for profit
 
 frames\mainFrame.xml
+apcEvents.lua
 core.lua
