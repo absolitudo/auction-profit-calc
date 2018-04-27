@@ -16,11 +16,3 @@ function APC.frames.mainFrame:initFrame()
     APC.frames.mainFrame:SetPoint("CENTER", UIParent, "CENTER")
     APC.frames.mainFrame:Hide()
 end
-
-function APC.frames.mainFrame:Show()
-    APC.frames.mainFrame:Show()
-end
-
-function APC.frames.mainFrame:Hide()
-    APC.frames.mainFrame:Hide()
-end

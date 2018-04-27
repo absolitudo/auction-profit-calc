@@ -1,8 +1,23 @@
 local ns = (select(2, ...))
 local APC = ns
 
+local function APCTradeSkillUpdate()
+
+end
+
 local function APCtradeSkillEventsHandler(self, event, ...)
-    print(event)
+    APC.frames.mainFrame:Show()
+    if(event == 'TRADE_SKILL_SHOW') then
+        if(not APC.frames.mainFrame:IsVisible()) then
+            APC.frames.mainFrame:Show()
+        end
+    elseif event == 'TRADE_SKILL_CLOSE' then
+        if(APC.frames.mainFrame:IsVisible()) then
+            APC.frames.mainFrame:Hide()
+        end
+    else
+        APCTradeSkillUpdate()
+    end
 end
 
 function APC:registerEvents()
