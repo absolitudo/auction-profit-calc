@@ -6,10 +6,10 @@ local function APCTradeSkillUpdate()
 end
 
 local function APCtradeSkillEventsHandler(self, event, ...)
-    APC.frames.mainFrame:Show()
+    print(...)
     if(event == 'TRADE_SKILL_SHOW') then
         if(not APC.frames.mainFrame:IsVisible()) then
-            APC.frames.mainFrame:Show()
+            APC.frames.mainFrame:ShowFrame()
         end
     elseif event == 'TRADE_SKILL_CLOSE' then
         if(APC.frames.mainFrame:IsVisible()) then

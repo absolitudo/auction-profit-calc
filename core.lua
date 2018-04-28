@@ -32,6 +32,8 @@ SLASH_AUCPROFITCALC1 = '/apc'
 SlashCmdList['AUCPROFITCALC'] = function(...)
     local params = ...
     if params == '' then
+        print(TradeSkillFrame:GetWidth())
+        print(TradeSkillFrame:GetHeight())
         
     end
     if params == 'load' then
