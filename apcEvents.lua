@@ -11,28 +11,32 @@ local function logTable(table)
     end
 end
 
-local function getSelectedRecipeInfo(recipeIndex)
-    local recipeInfo = {}
-    recipeInfo.name = GetTradeSkillInfo(recipeIndex)
-    recipeInfo.icon = GetTradeSkillIcon(recipeIndex)
-    recipeInfo.reagents = {}
-    for reagentIndex = 1, GetTradeSkillNumReagents(recipeIndex) do
-        local reagentName, reagentTexture, reagentCount = GetTradeSkillReagentInfo(recipeIndex, reagentIndex)
-
-        recipeInfo.reagents[reagentIndex] = {
-            name = reagentName,
-            icon = reagentTexture,
-            count = reagentCount
-        }
-    end
-    return recipeInfo
-end
-
 local function tradeSkillRecipeSelectionHook(recipeIndex)
     if APC.selectedRecipeIndex ~= recipeIndex then
-        APC.selectedRecipeIndex = recipeIndex
-        selectedRecipeInfo = getSelectedRecipeInfo(recipeIndex)
-        logTable(selectedRecipeInfo)
+        local name, skillType = GetTradeSkillInfo(recipeIndex)
+
+        if skillType ~= 'header'then
+            local recipeInfo = {}
+            local minMade, maxMade = GetTradeSkillNumMade(recipeIndex)
+            
+            recipeInfo.name = name
+            recipeInfo.icon = GetTradeSkillIcon(recipeIndex)
+            recipeInfo.count = (minMade + maxMade) / 2
+            recipeInfo.reagents = {}
+            
+            for reagentIndex = 1, GetTradeSkillNumReagents(recipeIndex) do
+                local reagentName, reagentTexture, reagentCount = GetTradeSkillReagentInfo(recipeIndex, reagentIndex)
+                
+                recipeInfo.reagents[reagentIndex] = {
+                    name = reagentName,
+                    icon = reagentTexture,
+                    count = reagentCount
+                }
+            end
+            
+            APC.selectedRecipeIndex = recipeIndex
+            APC.selectedRecipeInfo = recipeInfo
+        end
     end
 end
 
