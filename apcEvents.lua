@@ -1,5 +1,6 @@
 local ns = (select(2, ...))
 local APC = ns
+APC.selectedRecipe = {}
 
 local function logTable(table)
    for key, value in pairs(table) do
@@ -12,32 +13,32 @@ local function logTable(table)
 end
 
 local function TradeSkillRecipeSelectionHook(recipeIndex)
-    if APC.selectedRecipeIndex ~= recipeIndex then
+    if APC.selectedRecipe.index ~= recipeIndex then
         local name, skillType = GetTradeSkillInfo(recipeIndex)
 
         if skillType ~= 'header'then
-            local recipeInfo = {}
+            local newSelectedRecipe = {}
             local minMade, maxMade = GetTradeSkillNumMade(recipeIndex)
             
-            recipeInfo.name = name
-            recipeInfo.icon = GetTradeSkillIcon(recipeIndex)
-            recipeInfo.count = (minMade + maxMade) / 2
-            recipeInfo.reagents = {}
+            newSelectedRecipe.name = name
+            newSelectedRecipe.index = recipeIndex
+            newSelectedRecipe.icon = GetTradeSkillIcon(recipeIndex)
+            newSelectedRecipe.count = (minMade + maxMade) / 2
+            newSelectedRecipe.reagents = {}
             
             for reagentIndex = 1, GetTradeSkillNumReagents(recipeIndex) do
                 local reagentName, reagentTexture, reagentCount = GetTradeSkillReagentInfo(recipeIndex, reagentIndex)
                 
-                recipeInfo.reagents[reagentIndex] = {
+                newSelectedRecipe.reagents[reagentIndex] = {
                     name = reagentName,
                     icon = reagentTexture,
                     count = reagentCount
                 }
             end
             
-            APC.selectedRecipeIndex = recipeIndex
-            APC.selectedRecipeInfo = recipeInfo
+            APC.selectedRecipe = newSelectedRecipe
+            APC.frames.mainFrame:UpdateSelectedRecipe()
         end
-        APC.frames.mainFrame:UpdateSelectedRecipe(recipeIndex)
     end
 end
 

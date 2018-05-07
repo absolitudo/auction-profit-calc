@@ -93,8 +93,8 @@ function APC.frames.mainFrame:InitFrame()
         APC.frames.mainFrame:Show()
     end
 
-    function APC.frames.mainFrame:UpdateSelectedRecipe(recipe)
-        print('recipe is updating: ', recipe)
+    function APC.frames.mainFrame:UpdateSelectedRecipe()
+        print('recipe is updating: ', APC.selectedRecipe.name)
     end    
 
 end
