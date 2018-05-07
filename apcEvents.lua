@@ -11,7 +11,7 @@ local function logTable(table)
     end
 end
 
-local function tradeSkillRecipeSelectionHook(recipeIndex)
+local function TradeSkillRecipeSelectionHook(recipeIndex)
     if APC.selectedRecipeIndex ~= recipeIndex then
         local name, skillType = GetTradeSkillInfo(recipeIndex)
 
@@ -37,6 +37,7 @@ local function tradeSkillRecipeSelectionHook(recipeIndex)
             APC.selectedRecipeIndex = recipeIndex
             APC.selectedRecipeInfo = recipeInfo
         end
+        APC.frames.mainFrame:UpdateSelectedRecipe(recipeIndex)
     end
 end
 
@@ -51,11 +52,11 @@ local function APCtradeSkillEventsHandler(self, event, ...)
         end
     elseif event == 'ADDON_LOADED' and ... == 'Blizzard_TradeSkillUI' then
         self:UnregisterEvent('ADDON_LOADED')
-        hooksecurefunc("TradeSkillFrame_SetSelection", tradeSkillRecipeSelectionHook)
+        hooksecurefunc("TradeSkillFrame_SetSelection", TradeSkillRecipeSelectionHook)
     end
 end
 
-function APC:registerEvents()
+function APC:RegisterEvents()
     local APCtradeSkillEvents = CreateFrame("FRAME", "APCTradeSkillEvent")
     APCtradeSkillEvents:RegisterEvent("TRADE_SKILL_SHOW")
     APCtradeSkillEvents:RegisterEvent("TRADE_SKILL_CLOSE")

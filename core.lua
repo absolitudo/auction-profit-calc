@@ -1,8 +1,8 @@
 local ns = (select(2, ...))
 local APC = ns
 
-APC.frames:initFrames()
-APC:registerEvents()
+APC.frames:InitFrames()
+APC:RegisterEvents()
 
 --APC.scanData = {}
 --APC.professions = {}

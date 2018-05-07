@@ -4,11 +4,11 @@ APC.frames = {
     mainFrame = {}
 }
 
-function APC.frames.initFrames()
-    APC.frames.mainFrame:initFrame()
+function APC.frames.InitFrames()
+    APC.frames.mainFrame:InitFrame()
 end
 
-function APC.frames.mainFrame:initFrame()
+function APC.frames.mainFrame:InitFrame()
     
 
     local myData = {}
@@ -27,8 +27,11 @@ function APC.frames.mainFrame:initFrame()
     APC.frames.mainFrame.title = APC.frames.mainFrame:CreateFontString('MainFrameTitle')
     APC.frames.mainFrame.title:SetFontObject('GameFontHighlight')
     APC.frames.mainFrame.title:SetText('Auction profit calculator')
+    APC.frames.mainFrame.title:SetTextColor(1, 0.8, 0, 1)
     APC.frames.mainFrame.title:SetPoint('TOP', APC.frames.mainFrame, 'TOP', 0, -5)
     
+    APC.frames.mainFrame.selectedRecipeIcon = CreateFrame('Frame')
+    APC.frames.mainFrame.selectedRecipeIcon:SetPoint('TOPLEFT', APC.frames.mainFrame, 'TOPRIGHT', 0, -20)
 
     local scrollFrameHeight = 280
     local scrollFrameRow = 2
@@ -60,7 +63,7 @@ function APC.frames.mainFrame:initFrame()
         end
     end
 
-    function APC.frames.mainFrame.scrollFrame:update()
+    function APC.frames.mainFrame.scrollFrame:Update()
         FauxScrollFrame_Update(self, #myData, scrollFrameRow, scrollFrameRowHeight)
 
         local offset = FauxScrollFrame_GetOffset(self)
@@ -78,15 +81,20 @@ function APC.frames.mainFrame:initFrame()
     end
 
     APC.frames.mainFrame.scrollFrame:SetScript("OnVerticalScroll", function(self, offset)
-        FauxScrollFrame_OnVerticalScroll(self, offset, scrollFrameRowHeight, APC.frames.mainFrame.scrollFrame.update)
+        FauxScrollFrame_OnVerticalScroll(self, offset, scrollFrameRowHeight, APC.frames.mainFrame.scrollFrame.Update)
     end)
     
     APC.frames.mainFrame.scrollFrame:SetScript("OnShow", function()
-        APC.frames.mainFrame.scrollFrame:update()
+        APC.frames.mainFrame.scrollFrame:Update()
     end)
 
     function APC.frames.mainFrame:ShowFrame()
         APC.frames.mainFrame:SetPoint("TOPLEFT", TradeSkillFrame, "TOPRIGHT")
         APC.frames.mainFrame:Show()
     end
+
+    function APC.frames.mainFrame:UpdateSelectedRecipe(recipe)
+        print('recipe is updating: ', recipe)
+    end    
+
 end
