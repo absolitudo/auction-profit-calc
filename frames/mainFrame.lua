@@ -13,7 +13,7 @@ function APC.frames.mainFrame:InitFrame()
 
     local myData = {}
 
-    for i = 1, 10, 1 do
+    for i = 1, 3, 1 do
         myData[i] = i
     end
 
@@ -41,7 +41,7 @@ function APC.frames.mainFrame:InitFrame()
     APC.frames.mainFrame.selectedRecipeTextFrame.text = APC.frames.mainFrame.selectedRecipeTextFrame:CreateFontString('SelectedRecipeName')
     APC.frames.mainFrame.selectedRecipeTextFrame.text:SetFontObject('GameFontHighlight')
     APC.frames.mainFrame.selectedRecipeTextFrame.text:SetTextColor(1, 0.8, 0, 1)
-    APC.frames.mainFrame.selectedRecipeTextFrame.text:SetPoint('TOPLEFT', APC.frames.mainFrame, 'TOPLEFT', 60, -55)
+    APC.frames.mainFrame.selectedRecipeTextFrame.text:SetPoint('TOPLEFT', APC.frames.mainFrame, 'TOPLEFT', 55, -55)
 
     local scrollFrameHeight = 280
     local scrollFrameRow = 2
@@ -74,14 +74,14 @@ function APC.frames.mainFrame:InitFrame()
     end
 
     function APC.frames.mainFrame.scrollFrame:Update()
-        FauxScrollFrame_Update(self, #myData, scrollFrameRow, scrollFrameRowHeight)
+        FauxScrollFrame_Update(self, #myData, scrollFrameRow, scrollFrameRowHeight,  nil, nil, nil, nil, nil, nil, true)
 
         local offset = FauxScrollFrame_GetOffset(self)
 
         for i = 1, scrollFrameRow do
             local value = offset + i
             local row = self.rows[i]
-            if value <= value then
+            if value <= #myData then
                 row.textFrame:SetText("Data: " .. myData[value])
                 row:Show()
             else

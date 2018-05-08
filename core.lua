@@ -4,6 +4,8 @@ local APC = ns
 APC.frames:InitFrames()
 APC:RegisterEvents()
 
+
+
 --APC.scanData = {}
 --APC.professions = {}
 
@@ -25,27 +27,23 @@ APC:RegisterEvents()
 --ns.frames.initFrames()
 -- _G.AucAdvanced.GetFaction this is the server key
 -- _G.AucAdvanced.Modules.Util.ScanData.GetScanData this is the scan data requires serverkey
---SLASH_AUCPROFITCALC1 = '/apc'
---SlashCmdList['AUCPROFITCALC'] = function(...)
---    local params = ...
---   if params == '' then
---       print(TradeSkillFrame:GetWidth())
---       print(TradeSkillFrame:GetHeight())
+--[[
+SLASH_AUCPROFITCALC1 = '/apc'
+SlashCmdList['AUCPROFITCALC'] = function(...)
+    local params = ...
+    if params == '' then
         
---   end
---    if params == 'load' then
-        --print('loading scan data')
+    end
+    if params == 'load' then
         --_G.AucAdvanced.Scan.LoadScanData()
         --ns.scanData = _G.AucAdvanced.Modules.Util.ScanData.GetScanData(_G.AucAdvanced.GetFaction())
         
---        print(APC.professions[1]())
---        print(APC.professions[2]())
-        
---    end
+    end
 
-    --if not ns.frames.mainFrame:IsShown() then
-    --    ns.frames.mainFrame:Show()
-    --else
-    --    ns.frames.mainFrame:Hide()
-    --end
---end
+    if not ns.frames.mainFrame:IsShown() then
+        ns.frames.mainFrame:Show()
+    else
+        ns.frames.mainFrame:Hide()
+    end
+end
+]]--
