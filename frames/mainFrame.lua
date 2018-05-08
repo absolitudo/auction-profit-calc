@@ -74,7 +74,9 @@ function APC.frames.mainFrame:InitFrame()
             local row = self.rows[i]
             if value <= #APC.selectedRecipe.reagents then
                 row.textFrame:SetText(APC.selectedRecipe.reagents[value].name)
-                row:Show()
+                if not row:IsVisible() then
+                    row:Show()
+                end
             else
                 row:Hide()
             end
@@ -83,10 +85,6 @@ function APC.frames.mainFrame:InitFrame()
 
     APC.frames.mainFrame.scrollFrame:SetScript("OnVerticalScroll", function(self, offset)
         FauxScrollFrame_OnVerticalScroll(self, offset, scrollFrameRowHeight, APC.frames.mainFrame.scrollFrame.Update)
-    end)
-    
-    APC.frames.mainFrame.scrollFrame:SetScript("OnShow", function()
-        APC.frames.mainFrame.scrollFrame:Update()
     end)
 
     function APC.frames.mainFrame:ShowFrame()
@@ -97,7 +95,7 @@ function APC.frames.mainFrame:InitFrame()
     function APC.frames.mainFrame:UpdateSelectedRecipeView()
         APC.frames.mainFrame.selectedRecipeIcon.texture:SetTexture(APC.selectedRecipe.icon)
         APC.frames.mainFrame.selectedRecipeTextFrame.text:SetText(APC.selectedRecipe.name)
-        APC.frames.mainFrame.scrollFrame:Update()
+        FauxScrollFrame_OnVerticalScroll(APC.frames.mainFrame.scrollFrame, 0, scrollFrameRowHeight, APC.frames.mainFrame.scrollFrame.Update)
     end    
 
 end
