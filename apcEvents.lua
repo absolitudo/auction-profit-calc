@@ -13,31 +13,28 @@ local function logTable(table)
 end
 
 local function TradeSkillRecipeSelectionHook(recipeIndex)
-    if APC.selectedRecipe.index ~= recipeIndex then
-        local name, skillType = GetTradeSkillInfo(recipeIndex)
-        if skillType ~= 'header' and skillType ~= nil then
-            local newSelectedRecipe = {}
-            local minMade, maxMade = GetTradeSkillNumMade(recipeIndex)
-            
-            newSelectedRecipe.name = name
-            newSelectedRecipe.index = recipeIndex
-            newSelectedRecipe.icon = GetTradeSkillIcon(recipeIndex)
-            newSelectedRecipe.count = (minMade + maxMade) / 2
-            newSelectedRecipe.reagents = {}
-            
-            for reagentIndex = 1, GetTradeSkillNumReagents(recipeIndex) do
-                local reagentName, reagentTexture, reagentCount = GetTradeSkillReagentInfo(recipeIndex, reagentIndex)
-                
-                newSelectedRecipe.reagents[reagentIndex] = {
-                    name = reagentName,
-                    icon = reagentTexture,
-                    count = reagentCount
-                }
-            end
-            
-            APC.selectedRecipe = newSelectedRecipe
-            APC.frames.mainFrame:UpdateSelectedRecipeView()
+    local name, skillType = GetTradeSkillInfo(recipeIndex)
+    if skillType ~= 'header' and skillType ~= nil and ~= 'subheader' then
+        local newSelectedRecipe = {}
+        local minMade, maxMade = GetTradeSkillNumMade(recipeIndex)
+        
+        newSelectedRecipe.name = name
+        newSelectedRecipe.index = recipeIndex
+        newSelectedRecipe.icon = GetTradeSkillIcon(recipeIndex)
+        newSelectedRecipe.count = (minMade + maxMade) / 2
+        newSelectedRecipe.reagents = {}
+        
+        for reagentIndex = 1, GetTradeSkillNumReagents(recipeIndex) do
+            local reagentName, reagentTexture, reagentCount = GetTradeSkillReagentInfo(recipeIndex, reagentIndex)
+            newSelectedRecipe.reagents[reagentIndex] = {
+                name = reagentName,
+                icon = reagentTexture,
+                count = reagentCount
+            }
         end
+        
+        APC.selectedRecipe = newSelectedRecipe
+        APC.frames.mainFrame:UpdateSelectedRecipeView()
     end
 end
 

@@ -9,15 +9,6 @@ function APC.frames.InitFrames()
 end
 
 function APC.frames.mainFrame:InitFrame()
-    
-
-    local myData = {}
-
-    for i = 1, 3, 1 do
-        myData[i] = i
-    end
-
-
     APC.frames.mainFrame = CreateFrame("Frame", "AucProfitCalc", UIParent, 'BasicFrameTemplate')
     APC.frames.mainFrame:SetMovable(true)
     APC.frames.mainFrame:SetWidth(338)
@@ -74,15 +65,15 @@ function APC.frames.mainFrame:InitFrame()
     end
 
     function APC.frames.mainFrame.scrollFrame:Update()
-        FauxScrollFrame_Update(self, #myData, scrollFrameRow, scrollFrameRowHeight,  nil, nil, nil, nil, nil, nil, true)
+        FauxScrollFrame_Update(self, #APC.selectedRecipe.reagents, scrollFrameRow, scrollFrameRowHeight,  nil, nil, nil, nil, nil, nil, true)
 
         local offset = FauxScrollFrame_GetOffset(self)
 
         for i = 1, scrollFrameRow do
             local value = offset + i
             local row = self.rows[i]
-            if value <= #myData then
-                row.textFrame:SetText("Data: " .. myData[value])
+            if value <= #APC.selectedRecipe.reagents then
+                row.textFrame:SetText(APC.selectedRecipe.reagents[value].name)
                 row:Show()
             else
                 row:Hide()
@@ -106,6 +97,7 @@ function APC.frames.mainFrame:InitFrame()
     function APC.frames.mainFrame:UpdateSelectedRecipeView()
         APC.frames.mainFrame.selectedRecipeIcon.texture:SetTexture(APC.selectedRecipe.icon)
         APC.frames.mainFrame.selectedRecipeTextFrame.text:SetText(APC.selectedRecipe.name)
+        APC.frames.mainFrame.scrollFrame:Update()
     end    
 
 end
