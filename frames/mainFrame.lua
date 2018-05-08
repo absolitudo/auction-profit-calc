@@ -37,6 +37,11 @@ function APC.frames.mainFrame:InitFrame()
     APC.frames.mainFrame.selectedRecipeIcon.texture = APC.frames.mainFrame.selectedRecipeIcon:CreateTexture("$parentTexture")
     APC.frames.mainFrame.selectedRecipeIcon.texture:SetAllPoints()
 
+    APC.frames.mainFrame.selectedRecipeTextFrame = CreateFrame('Frame', 'RecipeTextFrame', APC.frames.mainFrame)
+    APC.frames.mainFrame.selectedRecipeTextFrame.text = APC.frames.mainFrame.selectedRecipeTextFrame:CreateFontString('SelectedRecipeName')
+    APC.frames.mainFrame.selectedRecipeTextFrame.text:SetFontObject('GameFontHighlight')
+    APC.frames.mainFrame.selectedRecipeTextFrame.text:SetTextColor(1, 0.8, 0, 1)
+    APC.frames.mainFrame.selectedRecipeTextFrame.text:SetPoint('TOPLEFT', APC.frames.mainFrame, 'TOPLEFT', 60, -55)
 
     local scrollFrameHeight = 280
     local scrollFrameRow = 2
@@ -100,6 +105,7 @@ function APC.frames.mainFrame:InitFrame()
 
     function APC.frames.mainFrame:UpdateSelectedRecipeView()
         APC.frames.mainFrame.selectedRecipeIcon.texture:SetTexture(APC.selectedRecipe.icon)
+        APC.frames.mainFrame.selectedRecipeTextFrame.text:SetText(APC.selectedRecipe.name)
     end    
 
 end
