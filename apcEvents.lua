@@ -15,8 +15,7 @@ end
 local function TradeSkillRecipeSelectionHook(recipeIndex)
     if APC.selectedRecipe.index ~= recipeIndex then
         local name, skillType = GetTradeSkillInfo(recipeIndex)
-
-        if skillType ~= 'header'then
+        if skillType ~= 'header' and skillType ~= nil then
             local newSelectedRecipe = {}
             local minMade, maxMade = GetTradeSkillNumMade(recipeIndex)
             
@@ -37,7 +36,7 @@ local function TradeSkillRecipeSelectionHook(recipeIndex)
             end
             
             APC.selectedRecipe = newSelectedRecipe
-            APC.frames.mainFrame:UpdateSelectedRecipe()
+            APC.frames.mainFrame:UpdateSelectedRecipeView()
         end
     end
 end
