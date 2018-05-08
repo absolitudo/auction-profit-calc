@@ -14,7 +14,7 @@ end
 
 local function TradeSkillRecipeSelectionHook(recipeIndex)
     local name, skillType = GetTradeSkillInfo(recipeIndex)
-    if skillType ~= 'header' and skillType ~= nil and ~= 'subheader' then
+    if skillType ~= 'header' and skillType ~= nil and skillType ~= 'subheader' then
         local newSelectedRecipe = {}
         local minMade, maxMade = GetTradeSkillNumMade(recipeIndex)
         
