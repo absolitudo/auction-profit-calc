@@ -30,8 +30,13 @@ function APC.frames.mainFrame:InitFrame()
     APC.frames.mainFrame.title:SetTextColor(1, 0.8, 0, 1)
     APC.frames.mainFrame.title:SetPoint('TOP', APC.frames.mainFrame, 'TOP', 0, -5)
     
-    APC.frames.mainFrame.selectedRecipeIcon = CreateFrame('Frame')
-    APC.frames.mainFrame.selectedRecipeIcon:SetPoint('TOPLEFT', APC.frames.mainFrame, 'TOPRIGHT', 0, -20)
+    APC.frames.mainFrame.selectedRecipeIcon = CreateFrame('Frame', 'RecipeIconFrame', APC.frames.mainFrame)
+    APC.frames.mainFrame.selectedRecipeIcon:SetWidth(40)
+    APC.frames.mainFrame.selectedRecipeIcon:SetHeight(40)
+    APC.frames.mainFrame.selectedRecipeIcon:SetPoint('TOPLEFT', APC.frames.mainFrame, 'TOPLEFT', 10, -40)
+    APC.frames.mainFrame.selectedRecipeIcon.texture = APC.frames.mainFrame.selectedRecipeIcon:CreateTexture("$parentTexture")
+    APC.frames.mainFrame.selectedRecipeIcon.texture:SetAllPoints()
+
 
     local scrollFrameHeight = 280
     local scrollFrameRow = 2
@@ -93,8 +98,8 @@ function APC.frames.mainFrame:InitFrame()
         APC.frames.mainFrame:Show()
     end
 
-    function APC.frames.mainFrame:UpdateSelectedRecipe()
-        print('recipe is updating: ', APC.selectedRecipe.name)
+    function APC.frames.mainFrame:UpdateSelectedRecipeView()
+        APC.frames.mainFrame.selectedRecipeIcon.texture:SetTexture(APC.selectedRecipe.icon)
     end    
 
 end
