@@ -16,6 +16,7 @@ APC.frames.mainFrame.InitFrame = function(self)
 
     local function UpdateScrollFrameRow(row, reagentInfo)
         row.reagentName:SetText(reagentInfo.name)
+        row.reagentIcon.texture:SetTexture(reagentInfo.icon)
     end
 
     -- Main window
@@ -57,12 +58,12 @@ APC.frames.mainFrame.InitFrame = function(self)
 
     -- Scrollframe for reagents
     APC.frames.mainFrame.scrollFrame = CreateFrame("ScrollFrame", "AucProfitCalcScroll", APC.frames.mainFrame, 'FauxScrollFrameTemplate')
-    APC.frames.mainFrame.scrollFrame.height = 280
+    APC.frames.mainFrame.scrollFrame.height = 260
     APC.frames.mainFrame.scrollFrame.numberOfRows = 2
     APC.frames.mainFrame.scrollFrame.rowHeight = APC.frames.mainFrame.scrollFrame.height / APC.frames.mainFrame.scrollFrame.numberOfRows
     APC.frames.mainFrame.scrollFrame:SetWidth(310)
     APC.frames.mainFrame.scrollFrame:SetHeight(APC.frames.mainFrame.scrollFrame.height)
-    APC.frames.mainFrame.scrollFrame:SetPoint("TOPLEFT", APC.frames.mainFrame, "TOPLEFT", 0, -96)
+    APC.frames.mainFrame.scrollFrame:SetPoint("TOPLEFT", APC.frames.mainFrame, "TOPLEFT", 0, -116)
     APC.frames.mainFrame.scrollFrame.rows = {}
     APC.frames.mainFrame.scrollFrame.Update = function(self)
         FauxScrollFrame_Update(self, #APC.selectedRecipe.reagents, APC.frames.mainFrame.scrollFrame.numberOfRows, APC.frames.mainFrame.scrollFrame.rowHeight,  nil, nil, nil, nil, nil, nil, true)
@@ -88,23 +89,33 @@ APC.frames.mainFrame.InitFrame = function(self)
 
     -- Rows in scrollframe
     for i = 1, APC.frames.mainFrame.scrollFrame.numberOfRows, 1 do
+        -- Creation of the row
         APC.frames.mainFrame.scrollFrame.rows[i] = CreateFrame('Frame', '$parentRow' .. i, APC.frames.mainFrame.scrollFrame)
-        APC.frames.mainFrame.scrollFrame.rows[i]:SetWidth(310)
-        APC.frames.mainFrame.scrollFrame.rows[i]:SetHeight(APC.frames.mainFrame.scrollFrame.rowHeight)
-        APC.frames.mainFrame.scrollFrame.rows[i]:SetBackdrop({
+        local currentRow = APC.frames.mainFrame.scrollFrame.rows[i]
+        currentRow:SetWidth(310)
+        currentRow:SetHeight(APC.frames.mainFrame.scrollFrame.rowHeight)
+        currentRow:SetBackdrop({
             bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", tile = true, tileSize = 16,
             insets = { left = 4, right = 4, top = 4, bottom = 4 },
         })
 
-        APC.frames.mainFrame.scrollFrame.rows[i].reagentName = APC.frames.mainFrame.scrollFrame.rows[i]:CreateFontString('$parentText' .. i)
-        APC.frames.mainFrame.scrollFrame.rows[i].reagentName:SetFontObject('GameFontHighlight')
-        APC.frames.mainFrame.scrollFrame.rows[i].reagentName:SetText('Auction profit calculator')
-        APC.frames.mainFrame.scrollFrame.rows[i].reagentName:SetPoint('CENTER', APC.frames.mainFrame.scrollFrame.rows[i], 'CENTER')
+        -- Reagent icon
+        currentRow.reagentIcon = CreateFrame('Frame', '$parentReagentIconFrame', currentRow)
+        currentRow.reagentIcon:SetWidth(40)
+        currentRow.reagentIcon:SetHeight(40)
+        currentRow.reagentIcon:SetPoint('TOPLEFT', currentRow, 'TOPLEFT', 10, -10)
+        currentRow.reagentIcon.texture = currentRow.reagentIcon:CreateTexture("$parentReagentIconTexture")
+        currentRow.reagentIcon.texture:SetAllPoints()
+
+        -- Reagent name
+        currentRow.reagentName = currentRow:CreateFontString('$parentText' .. i)
+        currentRow.reagentName:SetFontObject('GameFontHighlight')
+        currentRow.reagentName:SetPoint('TOPLEFT', currentRow, 'TOPLEFT', 55, -20)
 
         if i == 1 then 
-            APC.frames.mainFrame.scrollFrame.rows[i]:SetPoint("TOPLEFT", APC.frames.mainFrame.scrollFrame, 'TOPLEFT' , 0, 0)
+            currentRow:SetPoint("TOPLEFT", APC.frames.mainFrame.scrollFrame, 'TOPLEFT' , 0, 0)
         else 
-            APC.frames.mainFrame.scrollFrame.rows[i]:SetPoint("TOPLEFT", 'AucProfitCalcScrollRow' .. i - 1 , 'BOTTOMLEFT')
+            currentRow:SetPoint("TOPLEFT", 'AucProfitCalcScrollRow' .. i - 1 , 'BOTTOMLEFT')
         end
     end
 end
