@@ -11,7 +11,7 @@ end
 APC.frames.mainFrame.InitFrame = function(self)
     local function UpdateSelectedRecipeInMain()
         APC.frames.mainFrame.selectedRecipeIcon.texture:SetTexture(APC.selectedRecipe.icon)
-
+        APC.frames.mainFrame.selectedRecipeName:SetText(APC.selectedRecipe.name)
         if APC.selectedRecipe.count > 1 then
             APC.frames.mainFrame.selectedRecipeCount:SetText(APC.selectedRecipe.count)
             APC.frames.mainFrame.selectedRecipeCount:Show()
@@ -19,12 +19,17 @@ APC.frames.mainFrame.InitFrame = function(self)
             APC.frames.mainFrame.selectedRecipeCount:Hide()
         end
 
-        APC.frames.mainFrame.selectedRecipeName:SetText(APC.selectedRecipe.name)
     end
 
     local function UpdateScrollFrameRow(row, reagentInfo)
         row.reagentName:SetText(reagentInfo.name)
         row.reagentIcon.texture:SetTexture(reagentInfo.icon)
+        if reagentInfo.count > 1 then
+            row.reagentCount:SetText(reagentInfo.count)
+            row.reagentCount:Show()
+        else
+            row.reagentCount:Hide()
+        end
     end
 
     -- Main window
@@ -123,6 +128,12 @@ APC.frames.mainFrame.InitFrame = function(self)
         currentRow.reagentIcon:SetPoint('TOPLEFT', currentRow, 'TOPLEFT', 10, -10)
         currentRow.reagentIcon.texture = currentRow.reagentIcon:CreateTexture("$parentReagentIconTexture")
         currentRow.reagentIcon.texture:SetAllPoints()
+
+        -- Selected recipe count
+        currentRow.reagentCount = currentRow.reagentIcon:CreateFontString('SelectedRecipeCount')
+        currentRow.reagentCount:SetFont('Fonts\\FRIZQT__.TTF', 12, 'OUTLINE')
+        currentRow.reagentCount:SetTextColor(1, 1, 1, 1)
+        currentRow.reagentCount:SetPoint('TOPLEFT', currentRow.reagentIcon, 'TOPLEFT', 22, -22)
 
         -- Reagent name
         currentRow.reagentName = currentRow:CreateFontString('$parentText' .. i)
