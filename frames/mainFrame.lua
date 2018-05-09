@@ -11,6 +11,14 @@ end
 APC.frames.mainFrame.InitFrame = function(self)
     local function UpdateSelectedRecipeInMain()
         APC.frames.mainFrame.selectedRecipeIcon.texture:SetTexture(APC.selectedRecipe.icon)
+
+        if APC.selectedRecipe.count > 1 then
+            APC.frames.mainFrame.selectedRecipeCount:SetText(APC.selectedRecipe.count)
+            APC.frames.mainFrame.selectedRecipeCount:Show()
+        else
+            APC.frames.mainFrame.selectedRecipeCount:Hide()
+        end
+
         APC.frames.mainFrame.selectedRecipeName:SetText(APC.selectedRecipe.name)
     end
 
@@ -49,7 +57,11 @@ APC.frames.mainFrame.InitFrame = function(self)
     APC.frames.mainFrame.selectedRecipeIcon.texture = APC.frames.mainFrame.selectedRecipeIcon:CreateTexture("$parentTexture")
     APC.frames.mainFrame.selectedRecipeIcon.texture:SetAllPoints()
 
-  
+    -- Selected recipe count
+    APC.frames.mainFrame.selectedRecipeCount = APC.frames.mainFrame.selectedRecipeIcon:CreateFontString('SelectedRecipeCount')
+    APC.frames.mainFrame.selectedRecipeCount:SetFont('Fonts\\FRIZQT__.TTF', 12, 'OUTLINE')
+    APC.frames.mainFrame.selectedRecipeCount:SetTextColor(1, 1, 1, 1)
+    APC.frames.mainFrame.selectedRecipeCount:SetPoint('TOPLEFT', APC.frames.mainFrame.selectedRecipeIcon, 'TOPLEFT', 22, -22)
 
     -- Selected recipe name
     APC.frames.mainFrame.selectedRecipeName = APC.frames.mainFrame.selectedRecipeIcon:CreateFontString('SelectedRecipeName')
