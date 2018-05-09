@@ -5,7 +5,6 @@ APC.frames:InitFrames()
 APC:RegisterEvents()
 
 
-
 --APC.scanData = {}
 --APC.professions = {}
 

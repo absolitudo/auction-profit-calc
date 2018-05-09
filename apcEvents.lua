@@ -58,7 +58,7 @@ local function APCtradeSkillEventsHandler(self, event, ...)
     end
 end
 
-function APC:RegisterEvents()
+APC.RegisterEvents = function(self)
     local APCtradeSkillEvents = CreateFrame("FRAME", "APCTradeSkillEvent")
     APCtradeSkillEvents:RegisterEvent("TRADE_SKILL_SHOW")
     APCtradeSkillEvents:RegisterEvent("TRADE_SKILL_CLOSE")
