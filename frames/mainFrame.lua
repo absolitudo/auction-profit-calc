@@ -11,7 +11,7 @@ end
 APC.frames.mainFrame.InitFrame = function(self)
     local function UpdateSelectedRecipeInMain()
         APC.frames.mainFrame.selectedRecipeIcon.texture:SetTexture(APC.selectedRecipe.icon)
-        APC.frames.mainFrame.selectedRecipeTextFrame.text:SetText(APC.selectedRecipe.name)
+        APC.frames.mainFrame.selectedRecipeName:SetText(APC.selectedRecipe.name)
     end
 
     local function UpdateScrollFrameRow(row, reagentInfo)
@@ -48,13 +48,14 @@ APC.frames.mainFrame.InitFrame = function(self)
     APC.frames.mainFrame.selectedRecipeIcon:SetPoint('TOPLEFT', APC.frames.mainFrame, 'TOPLEFT', 10, -40)
     APC.frames.mainFrame.selectedRecipeIcon.texture = APC.frames.mainFrame.selectedRecipeIcon:CreateTexture("$parentTexture")
     APC.frames.mainFrame.selectedRecipeIcon.texture:SetAllPoints()
-    
+
+  
+
     -- Selected recipe name
-    APC.frames.mainFrame.selectedRecipeTextFrame = CreateFrame('Frame', 'RecipeTextFrame', APC.frames.mainFrame)
-    APC.frames.mainFrame.selectedRecipeTextFrame.text = APC.frames.mainFrame.selectedRecipeTextFrame:CreateFontString('SelectedRecipeName')
-    APC.frames.mainFrame.selectedRecipeTextFrame.text:SetFontObject('GameFontHighlight')
-    APC.frames.mainFrame.selectedRecipeTextFrame.text:SetTextColor(1, 0.8, 0, 1)
-    APC.frames.mainFrame.selectedRecipeTextFrame.text:SetPoint('TOPLEFT', APC.frames.mainFrame, 'TOPLEFT', 55, -55)
+    APC.frames.mainFrame.selectedRecipeName = APC.frames.mainFrame.selectedRecipeIcon:CreateFontString('SelectedRecipeName')
+    APC.frames.mainFrame.selectedRecipeName:SetFontObject('GameFontHighlight')
+    APC.frames.mainFrame.selectedRecipeName:SetTextColor(1, 0.8, 0, 1)
+    APC.frames.mainFrame.selectedRecipeName:SetPoint('TOPLEFT', APC.frames.mainFrame, 'TOPLEFT', 55, -55)
 
     -- Scrollframe for reagents
     APC.frames.mainFrame.scrollFrame = CreateFrame("ScrollFrame", "AucProfitCalcScroll", APC.frames.mainFrame, 'FauxScrollFrameTemplate')
@@ -85,7 +86,7 @@ APC.frames.mainFrame.InitFrame = function(self)
     end
 
     -- Reagents text for scrollframe
-    APC.frames.mainFrame.scrollFrame.title = APC.frames.mainFrame.selectedRecipeTextFrame:CreateFontString('ScrollFrameTitle')
+    APC.frames.mainFrame.scrollFrame.title = APC.frames.mainFrame.scrollFrame:CreateFontString('ScrollFrameTitle')
     APC.frames.mainFrame.scrollFrame.title:SetFontObject('GameFontHighlight')
     APC.frames.mainFrame.scrollFrame.title:SetTextColor(1, 0.8, 0, 1)
     APC.frames.mainFrame.scrollFrame.title:SetPoint('TOPLEFT', APC.frames.mainFrame.scrollFrame, 'TOPLEFT', 10, 15)
