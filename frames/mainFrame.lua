@@ -101,6 +101,9 @@ APC.frames.mainFrame.InitFrame = function(self)
             end
         end
     end
+    APC.frames.mainFrame.scrollFrame:SetScript("OnVerticalScroll", function(self, offset)
+        FauxScrollFrame_OnVerticalScroll(self, offset, APC.frames.mainFrame.scrollFrame.rowHeight, APC.frames.mainFrame.scrollFrame.Update)
+    end)
 
     -- Reagents text for scrollframe
     APC.frames.mainFrame.scrollFrame.title = APC.frames.mainFrame.scrollFrame:CreateFontString('ScrollFrameTitle')
