@@ -1,5 +1,17 @@
 local ns = (select(2, ...))
 local APC = ns
+local GetExtraPriceModels = AucAdvanced.Modules.Util.Appraiser.Private.GetExtraPriceModels
+local selectBox = LibStub:GetLibrary("SelectBox")
+
+local function logTable(table)
+    for key, value in pairs(table) do
+         print(key, value)
+         if type(value) == 'table' then
+             logTable(value)
+             print('---')
+        end
+    end
+end
 APC.frames = {
     mainFrame = {}
 }
@@ -72,7 +84,12 @@ APC.frames.mainFrame.InitFrame = function(self)
     APC.frames.mainFrame.selectedRecipeName = APC.frames.mainFrame.selectedRecipeIcon:CreateFontString('SelectedRecipeName')
     APC.frames.mainFrame.selectedRecipeName:SetFontObject('GameFontHighlight')
     APC.frames.mainFrame.selectedRecipeName:SetTextColor(1, 0.8, 0, 1)
-    APC.frames.mainFrame.selectedRecipeName:SetPoint('TOPLEFT', APC.frames.mainFrame, 'TOPLEFT', 55, -55)
+    APC.frames.mainFrame.selectedRecipeName:SetPoint('TOPLEFT', APC.frames.mainFrame, 'TOPLEFT', 55, -40)
+
+    -- Selected recipe price selection button
+    APC.frames.mainFrame.selectRecipePriceButton = selectBox:Create("SelectRecipePriceButton", APC.frames.mainFrame, 120, function(self) print(self.value) end, GetExtraPriceModels(APC.selectedRecipe.itemLink), "default")
+    APC.frames.mainFrame.selectRecipePriceButton:SetScript("OnLeave", function() return GameTooltip:Hide() end)
+    APC.frames.mainFrame.selectRecipePriceButton:SetPoint("TOPLEFT", APC.frames.mainFrame, "TOPLEFT", 35, -55)
 
     -- Scrollframe for reagents
     APC.frames.mainFrame.scrollFrame = CreateFrame("ScrollFrame", "AucProfitCalcScroll", APC.frames.mainFrame, 'FauxScrollFrameTemplate')
@@ -111,7 +128,7 @@ APC.frames.mainFrame.InitFrame = function(self)
     APC.frames.mainFrame.scrollFrame.title:SetTextColor(1, 0.8, 0, 1)
     APC.frames.mainFrame.scrollFrame.title:SetPoint('TOPLEFT', APC.frames.mainFrame.scrollFrame, 'TOPLEFT', 10, 15)
     APC.frames.mainFrame.scrollFrame.title:SetText('Reagents:')
- 
+
     -- Rows in scrollframe
     for i = 1, APC.frames.mainFrame.scrollFrame.numberOfRows, 1 do
         -- Creation of the row
@@ -142,7 +159,7 @@ APC.frames.mainFrame.InitFrame = function(self)
         currentRow.reagentName = currentRow:CreateFontString('$parentText' .. i)
         currentRow.reagentName:SetFontObject('GameFontHighlight')
         currentRow.reagentName:SetPoint('TOPLEFT', currentRow, 'TOPLEFT', 55, -20)
-
+        
         if i == 1 then 
             currentRow:SetPoint("TOPLEFT", APC.frames.mainFrame.scrollFrame, 'TOPLEFT' , 0, 0)
         else 
