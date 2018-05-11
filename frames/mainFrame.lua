@@ -87,8 +87,8 @@ APC.frames.mainFrame.InitFrame = function(self)
     APC.frames.mainFrame.selectedRecipeName:SetPoint('TOPLEFT', APC.frames.mainFrame, 'TOPLEFT', 55, -40)
 
     -- Selected recipe price selection button
-    APC.frames.mainFrame.selectRecipePriceButton = selectBox:Create("SelectRecipePriceButton", APC.frames.mainFrame, 120, function(self) print(self.value) end, GetExtraPriceModels(APC.selectedRecipe.itemLink), "default")
-    APC.frames.mainFrame.selectRecipePriceButton:SetScript("OnLeave", function() return GameTooltip:Hide() end)
+    APC.frames.mainFrame.selectRecipePriceButton = selectBox:Create("SelectRecipePriceButton", APC.frames.mainFrame, 120, function(self) print(self.value) end, GetExtraPriceModels(APC.selectedRecipe.itemLink), 'market')
+    APC.frames.mainFrame.selectRecipePriceButton:UpdateValue()
     APC.frames.mainFrame.selectRecipePriceButton:SetPoint("TOPLEFT", APC.frames.mainFrame, "TOPLEFT", 35, -55)
 
     -- Scrollframe for reagents
