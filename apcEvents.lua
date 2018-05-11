@@ -2,15 +2,7 @@ local ns = (select(2, ...))
 local APC = ns
 APC.selectedRecipe = {}
 
-local function logTable(table)
-   for key, value in pairs(table) do
-        print(key, value)
-        if type(value) == 'table' then
-            logTable(value)
-            print('---')
-       end
-    end
-end
+
 
 local function TradeSkillRecipeSelectionHook(recipeIndex)
     local name, skillType = GetTradeSkillInfo(recipeIndex)
@@ -24,16 +16,20 @@ local function TradeSkillRecipeSelectionHook(recipeIndex)
         newSelectedRecipe.icon = GetTradeSkillIcon(recipeIndex)
         newSelectedRecipe.count = (minMade + maxMade) / 2
         newSelectedRecipe.reagents = {}
+        newSelectedRecipe.itemLink = GetTradeSkillItemLink(recipeIndex)
+
         for reagentIndex = 1, GetTradeSkillNumReagents(recipeIndex) do
             local reagentName, reagentTexture, reagentCount = GetTradeSkillReagentInfo(recipeIndex, reagentIndex)
             if reagentName == nil or reagentTexture == nil then
                 shouldItUpdate = false
                 break
             end
+            local reagentItemLink = GetTradeSkillReagentItemLink(recipeIndex, reagentIndex)
             newSelectedRecipe.reagents[reagentIndex] = {
                 name = reagentName,
                 icon = reagentTexture,
-                count = reagentCount
+                count = reagentCount,
+                itemLink = reagentItemLink
             }
         end
         if shouldItUpdate then
