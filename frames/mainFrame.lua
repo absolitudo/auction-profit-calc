@@ -1,7 +1,12 @@
 local ns = (select(2, ...))
 local APC = ns
 local GetExtraPriceModels = AucAdvanced.Modules.Util.Appraiser.Private.GetExtraPriceModels
+local GetMarketPrice = AucAdvanced.API.GetMarketValue
+local GetAlgorithmPrice = AucAdvanced.API.GetAlgorithmValue
 local selectBox = LibStub:GetLibrary("SelectBox")
+APC.frames = {
+    mainFrame = {}
+}
 
 local function logTable(table)
     for key, value in pairs(table) do
@@ -12,9 +17,6 @@ local function logTable(table)
         end
     end
 end
-APC.frames = {
-    mainFrame = {}
-}
 
 APC.frames.InitFrames = function()
     APC.frames.mainFrame:InitFrame()
@@ -30,7 +32,6 @@ APC.frames.mainFrame.InitFrame = function(self)
         else
             APC.frames.mainFrame.selectedRecipeCount:Hide()
         end
-
     end
 
     local function UpdateScrollFrameRow(row, reagentInfo)
@@ -83,13 +84,15 @@ APC.frames.mainFrame.InitFrame = function(self)
     -- Selected recipe name
     APC.frames.mainFrame.selectedRecipeName = APC.frames.mainFrame.selectedRecipeIcon:CreateFontString('SelectedRecipeName')
     APC.frames.mainFrame.selectedRecipeName:SetFontObject('GameFontHighlight')
+    APC.frames.mainFrame.selectedRecipeName:SetWidth(135)
+    APC.frames.mainFrame.selectedRecipeName:SetMaxLines(1)
     APC.frames.mainFrame.selectedRecipeName:SetTextColor(1, 0.8, 0, 1)
-    APC.frames.mainFrame.selectedRecipeName:SetPoint('TOPLEFT', APC.frames.mainFrame, 'TOPLEFT', 55, -40)
+    APC.frames.mainFrame.selectedRecipeName:SetPoint('TOPLEFT', APC.frames.mainFrame, 'TOPLEFT', 55, -45)
 
     -- Selected recipe price selection button
-    APC.frames.mainFrame.selectRecipePriceButton = selectBox:Create("SelectRecipePriceButton", APC.frames.mainFrame, 120, function(self) print(self.value) end, GetExtraPriceModels(APC.selectedRecipe.itemLink), 'market')
+    APC.frames.mainFrame.selectRecipePriceButton = selectBox:Create("SelectRecipePriceButton", APC.frames.mainFrame, 120, function(self) end, GetExtraPriceModels(APC.selectedRecipe.itemLink), 'market')
     APC.frames.mainFrame.selectRecipePriceButton:UpdateValue()
-    APC.frames.mainFrame.selectRecipePriceButton:SetPoint("TOPLEFT", APC.frames.mainFrame, "TOPLEFT", 35, -55)
+    APC.frames.mainFrame.selectRecipePriceButton:SetPoint("TOPLEFT", APC.frames.mainFrame, "TOPLEFT", 178, -37)
 
     -- Scrollframe for reagents
     APC.frames.mainFrame.scrollFrame = CreateFrame("ScrollFrame", "AucProfitCalcScroll", APC.frames.mainFrame, 'FauxScrollFrameTemplate')
