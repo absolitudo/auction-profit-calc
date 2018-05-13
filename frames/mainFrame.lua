@@ -1,65 +1,6 @@
 local ns = (select(2, ...))
 local APC = ns
-local GetMarketPrice = AucAdvanced.API.GetMarketValue
-local GetAlgorithmPrice = AucAdvanced.API.GetAlgorithmValue
 local selectBox = LibStub:GetLibrary("SelectBox")
-APC.frames = {
-    mainFrame = {}
-}
-
-local priceList = {
-    [1] = {
-        [1] = 'market',
-        [2] = 'Market'
-    },
-    [2] = {
-        [1] = 'VendMarkup',
-        [2] = 'Stats: VendMarkup'
-    },
-    [3] = {
-        [1] = 'Histogram',
-        [2] = 'Stats: Histogram'
-    },
-    [4] = {
-        [1] = 'iLevel',
-        [2] = 'Stats: iLevel'
-    },
-    [5] = {
-        [1] = 'Purchased',
-        [2] = 'Stats: Purchased'
-    },
-    [6] = {
-        [1] = 'Sales',
-        [2] = 'Stats: Sales'
-    },
-    [7] = {
-        [1] = 'Simple',
-        [2] = 'Stats: Simple'
-    },
-    [8] = {
-        [1] = 'StdDev',
-        [2] = 'Stats: StdDev'
-    },
-    [9] = {
-        [1] = 'fixed',
-        [2] = 'Fixed price'
-    },
-    [10] = {
-        [1] = 'default',
-        [2] = 'Default'
-    }
-}
-
-
-local function logTable(table)
-    for key, value in pairs(table) do
-         print(key, value)
-         if type(value) == 'table' then
-             logTable(value)
-             print('---')
-        end
-    end
-end
 
 APC.frames.InitFrames = function()
     APC.frames.mainFrame:InitFrame()
@@ -133,7 +74,7 @@ APC.frames.mainFrame.InitFrame = function(self)
     APC.frames.mainFrame.selectedRecipeName:SetPoint('TOPLEFT', APC.frames.mainFrame, 'TOPLEFT', 55, -45)
 
     -- Selected recipe price selection button
-    APC.frames.mainFrame.selectRecipePriceButton = selectBox:Create("SelectRecipePriceButton", APC.frames.mainFrame, 120, function(self) end, priceList, 'market')
+    APC.frames.mainFrame.selectRecipePriceButton = selectBox:Create("SelectRecipePriceButton", APC.frames.mainFrame, 120, function(self) end, APC.priceList, 'market')
     APC.frames.mainFrame.selectRecipePriceButton:UpdateValue()
     APC.frames.mainFrame.selectRecipePriceButton:SetPoint("TOPLEFT", APC.frames.mainFrame, "TOPLEFT", 173, -37)
 
@@ -217,7 +158,7 @@ APC.frames.mainFrame.InitFrame = function(self)
         currentRow.reagentName:SetPoint('TOPLEFT', currentRow, 'TOPLEFT', 55, -20)
 
         -- reagent price selection button
-        currentRow.selectRecipePriceButton = selectBox:Create("SelectRecipePriceButton" .. i, currentRow, 120, function(self) end, priceList, 'market')
+        currentRow.selectRecipePriceButton = selectBox:Create("SelectRecipePriceButton" .. i, currentRow, 120, function(self) end, APC.priceList, 'market')
         currentRow.selectRecipePriceButton:UpdateValue()
         currentRow.selectRecipePriceButton:SetPoint("TOPLEFT", currentRow, "TOPLEFT", 173, -37)
 

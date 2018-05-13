@@ -4,6 +4,7 @@
 ## Title: MetcolsAucProfitCalc
 ## Notes: Helps you to decide what to craft for profit
 
+variables.lua
 frames\mainFrame.xml
 apcEvents.lua
 core.lua
