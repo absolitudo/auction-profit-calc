@@ -4,33 +4,7 @@ local APC = ns
 local function TradeSkillRecipeSelectionHook(recipeIndex)
     local name, skillType = GetTradeSkillInfo(recipeIndex)
     if skillType ~= 'header' and skillType ~= nil and skillType ~= 'subheader' then
-        local newSelectedRecipe = {}
-        local minMade, maxMade = GetTradeSkillNumMade(recipeIndex)
-        local shouldItUpdate = true
-        
-        newSelectedRecipe.name = name
-        newSelectedRecipe.index = recipeIndex
-        newSelectedRecipe.icon = GetTradeSkillIcon(recipeIndex)
-        newSelectedRecipe.count = (minMade + maxMade) / 2
-        newSelectedRecipe.reagents = {}
-        newSelectedRecipe.itemLink = GetTradeSkillItemLink(recipeIndex)
-
-        for reagentIndex = 1, GetTradeSkillNumReagents(recipeIndex) do
-            local reagentName, reagentTexture, reagentCount = GetTradeSkillReagentInfo(recipeIndex, reagentIndex)
-            if reagentName == nil or reagentTexture == nil then
-                shouldItUpdate = false
-                break
-            end
-            local reagentItemLink = GetTradeSkillReagentItemLink(recipeIndex, reagentIndex)
-            newSelectedRecipe.reagents[reagentIndex] = {
-                name = reagentName,
-                icon = reagentTexture,
-                count = reagentCount,
-                itemLink = reagentItemLink
-            }
-        end
-        if shouldItUpdate then
-            APC.selectedRecipe = newSelectedRecipe
+        if APC.SetSelectedRecipe(recipeIndex) then
             APC.frames.mainFrame:UpdateSelectedRecipeView()
         end
     end

@@ -7,28 +7,6 @@ APC.frames.InitFrames = function()
 end
 
 APC.frames.mainFrame.InitFrame = function(self)
-    local function UpdateSelectedRecipeInMainFrame()
-        APC.frames.mainFrame.selectedRecipeIcon.texture:SetTexture(APC.selectedRecipe.icon)
-        APC.frames.mainFrame.selectedRecipeName:SetText(APC.selectedRecipe.name)
-        if APC.selectedRecipe.count > 1 then
-            APC.frames.mainFrame.selectedRecipeCount:SetText(APC.selectedRecipe.count)
-            APC.frames.mainFrame.selectedRecipeCount:Show()
-        else
-            APC.frames.mainFrame.selectedRecipeCount:Hide()
-        end
-    end
-
-    local function UpdateScrollFrameRow(row, reagentInfo)
-        row.reagentName:SetText(reagentInfo.name)
-        row.reagentIcon.texture:SetTexture(reagentInfo.icon)
-        if reagentInfo.count > 1 then
-            row.reagentCount:SetText(reagentInfo.count)
-            row.reagentCount:Show()
-        else
-            row.reagentCount:Hide()
-        end
-    end
-
     -- Main window
     APC.frames.mainFrame = CreateFrame("Frame", "AucProfitCalc", UIParent, 'BasicFrameTemplate')
     APC.frames.mainFrame:SetMovable(true)
@@ -36,7 +14,7 @@ APC.frames.mainFrame.InitFrame = function(self)
     APC.frames.mainFrame:SetHeight(424)
     APC.frames.mainFrame:Hide()
     APC.frames.mainFrame.UpdateSelectedRecipeView = function(self)
-        UpdateSelectedRecipeInMainFrame()
+        APC.UpdateSelectedRecipeInMainFrame()
         FauxScrollFrame_OnVerticalScroll(APC.frames.mainFrame.scrollFrame, 0, APC.frames.mainFrame.scrollFrame.rowHeight, APC.frames.mainFrame.scrollFrame.Update)
     end
     APC.frames.mainFrame.ShowFrame = function(self)
@@ -106,7 +84,7 @@ APC.frames.mainFrame.InitFrame = function(self)
             local value = offset + i
             local row = self.rows[i]
             if value <= #APC.selectedRecipe.reagents then
-                UpdateScrollFrameRow(row, APC.selectedRecipe.reagents[value])
+                APC.UpdateScrollFrameRow(row, APC.selectedRecipe.reagents[value])
                 if not row:IsVisible() then
                     row:Show()
                 end
