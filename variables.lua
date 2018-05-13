@@ -56,6 +56,10 @@ APC.GetAlgorithmPrice = AucAdvanced.API.GetAlgorithmValue
 APC.UpdateSelectedRecipeInMainFrame = function()
     APC.frames.mainFrame.selectedRecipeIcon.texture:SetTexture(APC.selectedRecipe.icon)
     APC.frames.mainFrame.selectedRecipeName:SetText(APC.selectedRecipe.name)
+
+    APC.frames.mainFrame.selectRecipePriceButton.value = APC.defaultPrice
+    APC.frames.mainFrame.selectRecipePriceButton:UpdateValue()
+    
     if APC.selectedRecipe.count > 1 then
         APC.frames.mainFrame.selectedRecipeCount:SetText(APC.selectedRecipe.count)
         APC.frames.mainFrame.selectedRecipeCount:Show()
@@ -67,6 +71,10 @@ end
 APC.UpdateScrollFrameRow = function(row, reagentInfo)
     row.reagentName:SetText(reagentInfo.name)
     row.reagentIcon.texture:SetTexture(reagentInfo.icon)
+
+    row.selectRecipePriceButton.value = APC.defaultPrice
+    row.selectRecipePriceButton:UpdateValue()
+
     if reagentInfo.count > 1 then
         row.reagentCount:SetText(reagentInfo.count)
         row.reagentCount:Show()
@@ -86,6 +94,12 @@ APC.SetSelectedRecipe = function(recipeIndex)
     newSelectedRecipe.count = (minMade + maxMade) / 2
     newSelectedRecipe.reagents = {}
     newSelectedRecipe.itemLink = GetTradeSkillItemLink(recipeIndex)
+
+    if APC.defaultPrice == 'market' then
+        newSelectedRecipe.price = APC.GetMarketPrice(newSelectedRecipe.itemLink)
+    else
+        newSelectedRecipe.price = APC.GetAlgorithmValue(newSelectedRecipe.itemLink, APC.defaultPrice)
+    end
 
     for reagentIndex = 1, GetTradeSkillNumReagents(recipeIndex) do
         local reagentName, reagentTexture, reagentCount = GetTradeSkillReagentInfo(recipeIndex, reagentIndex)
