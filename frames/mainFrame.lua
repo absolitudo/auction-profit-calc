@@ -84,7 +84,7 @@ APC.frames.mainFrame.InitFrame = function(self)
     -- Selected recipe name
     APC.frames.mainFrame.selectedRecipeName = APC.frames.mainFrame.selectedRecipeIcon:CreateFontString('SelectedRecipeName')
     APC.frames.mainFrame.selectedRecipeName:SetFontObject('GameFontHighlight')
-    APC.frames.mainFrame.selectedRecipeName:SetWidth(135)
+    APC.frames.mainFrame.selectedRecipeName:SetWidth(130)
     APC.frames.mainFrame.selectedRecipeName:SetMaxLines(1)
     APC.frames.mainFrame.selectedRecipeName:SetTextColor(1, 0.8, 0, 1)
     APC.frames.mainFrame.selectedRecipeName:SetPoint('TOPLEFT', APC.frames.mainFrame, 'TOPLEFT', 55, -45)
@@ -92,8 +92,19 @@ APC.frames.mainFrame.InitFrame = function(self)
     -- Selected recipe price selection button
     APC.frames.mainFrame.selectRecipePriceButton = selectBox:Create("SelectRecipePriceButton", APC.frames.mainFrame, 120, function(self) end, GetExtraPriceModels(APC.selectedRecipe.itemLink), 'market')
     APC.frames.mainFrame.selectRecipePriceButton:UpdateValue()
-    APC.frames.mainFrame.selectRecipePriceButton:SetPoint("TOPLEFT", APC.frames.mainFrame, "TOPLEFT", 178, -37)
+    APC.frames.mainFrame.selectRecipePriceButton:SetPoint("TOPLEFT", APC.frames.mainFrame, "TOPLEFT", 173, -37)
 
+    --Price box container
+    APC.frames.mainFrame.recipePriceContainer = CreateFrame("Frame", 'PriceContainer', APC.frames.mainFrame)
+    APC.frames.mainFrame.recipePriceContainer:SetWidth(170)
+    APC.frames.mainFrame.recipePriceContainer:SetHeight(20)
+    APC.frames.mainFrame.recipePriceContainer:SetPoint('TOPLEFT', APC.frames.mainFrame, 'TOPLEFT', 165, -70)
+    -- price box
+    APC.frames.mainFrame.APCPriceBox = CreateFrame("Frame", 'APCPriceBox', APC.frames.mainFrame.recipePriceContainer, "MoneyInputFrameTemplate")
+    APC.frames.mainFrame.APCPriceBox:SetPoint("RIGHT", APC.frames.mainFrame.recipePriceContainer, "RIGHT", 0, 0)
+    APC.frames.mainFrame.APCPriceBox:SetScript("OnLeave", function() return GameTooltip:Hide() end)
+    MoneyInputFrame_SetOnValueChangedFunc(APC.frames.mainFrame.APCPriceBox, function() print(MoneyInputFrame_GetCopper(APC.frames.mainFrame.APCPriceBox)) end)
+    
     -- Scrollframe for reagents
     APC.frames.mainFrame.scrollFrame = CreateFrame("ScrollFrame", "AucProfitCalcScroll", APC.frames.mainFrame, 'FauxScrollFrameTemplate')
     APC.frames.mainFrame.scrollFrame.height = 260
