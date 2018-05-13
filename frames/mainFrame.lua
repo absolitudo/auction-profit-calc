@@ -99,10 +99,9 @@ APC.frames.mainFrame.InitFrame = function(self)
     APC.frames.mainFrame.recipePriceContainer:SetWidth(170)
     APC.frames.mainFrame.recipePriceContainer:SetHeight(20)
     APC.frames.mainFrame.recipePriceContainer:SetPoint('TOPLEFT', APC.frames.mainFrame, 'TOPLEFT', 165, -70)
-    -- price box
+    -- Price box
     APC.frames.mainFrame.APCPriceBox = CreateFrame("Frame", 'APCPriceBox', APC.frames.mainFrame.recipePriceContainer, "MoneyInputFrameTemplate")
-    APC.frames.mainFrame.APCPriceBox:SetPoint("RIGHT", APC.frames.mainFrame.recipePriceContainer, "RIGHT", 0, 0)
-    APC.frames.mainFrame.APCPriceBox:SetScript("OnLeave", function() return GameTooltip:Hide() end)
+    APC.frames.mainFrame.APCPriceBox:SetPoint("TOPLEFT", APC.frames.mainFrame.recipePriceContainer, "TOPLEFT", 0, 0)
     MoneyInputFrame_SetOnValueChangedFunc(APC.frames.mainFrame.APCPriceBox, function() print(MoneyInputFrame_GetCopper(APC.frames.mainFrame.APCPriceBox)) end)
     
     -- Scrollframe for reagents
@@ -163,7 +162,7 @@ APC.frames.mainFrame.InitFrame = function(self)
         currentRow.reagentIcon.texture = currentRow.reagentIcon:CreateTexture("$parentReagentIconTexture")
         currentRow.reagentIcon.texture:SetAllPoints()
 
-        -- Selected recipe count
+        -- Reagent count
         currentRow.reagentCount = currentRow.reagentIcon:CreateFontString('SelectedRecipeCount')
         currentRow.reagentCount:SetFont('Fonts\\FRIZQT__.TTF', 12, 'OUTLINE')
         currentRow.reagentCount:SetTextColor(1, 1, 1, 1)
@@ -173,7 +172,17 @@ APC.frames.mainFrame.InitFrame = function(self)
         currentRow.reagentName = currentRow:CreateFontString('$parentText' .. i)
         currentRow.reagentName:SetFontObject('GameFontHighlight')
         currentRow.reagentName:SetPoint('TOPLEFT', currentRow, 'TOPLEFT', 55, -20)
-        
+
+        -- Reagent recipe price container
+        currentRow.recipePriceContainer = CreateFrame("Frame", 'ReagentPriceContainer' .. i, currentRow)
+        currentRow.recipePriceContainer:SetWidth(170)
+        currentRow.recipePriceContainer:SetHeight(20)
+        currentRow.recipePriceContainer:SetPoint('TOPLEFT', currentRow, 'TOPLEFT', 50, -50)
+        -- Price box
+        currentRow.APCPriceBox = CreateFrame("Frame", 'APCPriceBox' .. i, currentRow.recipePriceContainer, "MoneyInputFrameTemplate")
+        currentRow.APCPriceBox:SetPoint("TOPLEFT", currentRow, "TOPLEFT", 0, 0)
+        MoneyInputFrame_SetOnValueChangedFunc(currentRow.APCPriceBox, function() print(MoneyInputFrame_GetCopper(currentRow.APCPriceBox)) end)
+
         if i == 1 then 
             currentRow:SetPoint("TOPLEFT", APC.frames.mainFrame.scrollFrame, 'TOPLEFT' , 0, 0)
         else 
