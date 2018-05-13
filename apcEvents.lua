@@ -1,8 +1,5 @@
 local ns = (select(2, ...))
 local APC = ns
-APC.selectedRecipe = {}
-
-
 
 local function TradeSkillRecipeSelectionHook(recipeIndex)
     local name, skillType = GetTradeSkillInfo(recipeIndex)
