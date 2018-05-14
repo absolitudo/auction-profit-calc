@@ -59,6 +59,8 @@ APC.UpdateSelectedRecipeInMainFrame = function()
 
     APC.frames.mainFrame.selectRecipePriceButton.value = APC.defaultPrice
     APC.frames.mainFrame.selectRecipePriceButton:UpdateValue()
+
+    APC.SetMoneyFrameCopper(APC.frames.mainFrame.APCPriceBox, APC.selectedRecipe.price)
     
     if APC.selectedRecipe.count > 1 then
         APC.frames.mainFrame.selectedRecipeCount:SetText(APC.selectedRecipe.count)
@@ -83,7 +85,7 @@ APC.UpdateScrollFrameRow = function(row, reagentInfo)
     end
 end
 
-APC.SetSelectedRecipe = function(recipeIndex)
+APC.SetSelectedRecipe = function(name, recipeIndex)
     local newSelectedRecipe = {}
     local minMade, maxMade = GetTradeSkillNumMade(recipeIndex)
     local shouldItUpdate = true
@@ -122,7 +124,13 @@ APC.SetSelectedRecipe = function(recipeIndex)
         return false
     end
 end
-
+APC.SetMoneyFrameCopper = function(moneyframe, price)
+    if price then
+        MoneyInputFrame_SetCopper(moneyframe, price)
+    else
+        MoneyInputFrame_SetCopper(moneyframe, 0)
+    end
+end
 function logTable(table)
     for key, value in pairs(table) do
          print(key, value)

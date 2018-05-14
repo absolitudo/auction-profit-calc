@@ -9,6 +9,7 @@ end
 APC.frames.mainFrame.InitFrame = function(self)
     -- Main window
     APC.frames.mainFrame = CreateFrame("Frame", "AucProfitCalc", UIParent, 'BasicFrameTemplate')
+    APC.frames.mainFrame:SetFrameStrata("DIALOG")
     APC.frames.mainFrame:SetMovable(true)
     APC.frames.mainFrame:SetWidth(338)
     APC.frames.mainFrame:SetHeight(424)
@@ -50,7 +51,6 @@ APC.frames.mainFrame.InitFrame = function(self)
     APC.frames.mainFrame.selectedRecipeName:SetMaxLines(1)
     APC.frames.mainFrame.selectedRecipeName:SetTextColor(1, 0.8, 0, 1)
     APC.frames.mainFrame.selectedRecipeName:SetPoint('TOPLEFT', APC.frames.mainFrame, 'TOPLEFT', 55, -45)
-
     -- Selected recipe price selection button
     APC.frames.mainFrame.selectRecipePriceButton = selectBox:Create("SelectRecipePriceButton", APC.frames.mainFrame, 120, function(self) end, APC.priceList, APC.defaultPrice)
     APC.frames.mainFrame.selectRecipePriceButton:UpdateValue()
@@ -64,8 +64,8 @@ APC.frames.mainFrame.InitFrame = function(self)
     -- Price box
     APC.frames.mainFrame.APCPriceBox = CreateFrame("Frame", 'APCPriceBox', APC.frames.mainFrame.recipePriceContainer, "MoneyInputFrameTemplate")
     APC.frames.mainFrame.APCPriceBox:SetPoint("TOPLEFT", APC.frames.mainFrame.recipePriceContainer, "TOPLEFT", 0, 0)
-    MoneyInputFrame_SetOnValueChangedFunc(APC.frames.mainFrame.APCPriceBox, function() print(MoneyInputFrame_GetCopper(APC.frames.mainFrame.APCPriceBox)) end)
-    
+    --MoneyInputFrame_SetOnValueChangedFunc(APC.frames.mainFrame.APCPriceBox, function() MoneyInputFrame_GetCopper(APC.frames.mainFrame.APCPriceBox) end)
+
     -- Scrollframe for reagents
     APC.frames.mainFrame.scrollFrame = CreateFrame("ScrollFrame", "AucProfitCalcScroll", APC.frames.mainFrame, 'FauxScrollFrameTemplate')
     APC.frames.mainFrame.scrollFrame.height = 260
@@ -148,7 +148,7 @@ APC.frames.mainFrame.InitFrame = function(self)
         -- Price box
         currentRow.APCPriceBox = CreateFrame("Frame", 'APCPriceBox' .. i, currentRow.recipePriceContainer, "MoneyInputFrameTemplate")
         currentRow.APCPriceBox:SetPoint("TOPLEFT", currentRow, "TOPLEFT", 0, 0)
-        MoneyInputFrame_SetOnValueChangedFunc(currentRow.APCPriceBox, function() print(MoneyInputFrame_GetCopper(currentRow.APCPriceBox)) end)
+        --MoneyInputFrame_SetOnValueChangedFunc(currentRow.APCPriceBox, function() print(MoneyInputFrame_GetCopper(currentRow.APCPriceBox)) end)
 
         if i == 1 then 
             currentRow:SetPoint("TOPLEFT", APC.frames.mainFrame.scrollFrame, 'TOPLEFT' , 0, 0)

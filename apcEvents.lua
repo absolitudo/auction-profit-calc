@@ -4,7 +4,7 @@ local APC = ns
 local function TradeSkillRecipeSelectionHook(recipeIndex)
     local name, skillType = GetTradeSkillInfo(recipeIndex)
     if skillType ~= 'header' and skillType ~= nil and skillType ~= 'subheader' then
-        if APC.SetSelectedRecipe(recipeIndex) then
+        if APC.SetSelectedRecipe(name, recipeIndex) then
             APC.frames.mainFrame:UpdateSelectedRecipeView()
         end
     end
