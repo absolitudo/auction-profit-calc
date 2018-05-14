@@ -96,12 +96,7 @@ APC.SetSelectedRecipe = function(name, recipeIndex)
     newSelectedRecipe.count = (minMade + maxMade) / 2
     newSelectedRecipe.reagents = {}
     newSelectedRecipe.itemLink = GetTradeSkillItemLink(recipeIndex)
-
-    if APC.defaultPrice == 'market' then
-        newSelectedRecipe.price = APC.GetMarketPrice(newSelectedRecipe.itemLink)
-    else
-        newSelectedRecipe.price = APC.GetAlgorithmValue(newSelectedRecipe.itemLink, APC.defaultPrice)
-    end
+    newSelectedRecipe.price = APC.GetPrice(newSelectedRecipe, APC.defaultPrice)
 
     for reagentIndex = 1, GetTradeSkillNumReagents(recipeIndex) do
         local reagentName, reagentTexture, reagentCount = GetTradeSkillReagentInfo(recipeIndex, reagentIndex)
@@ -124,6 +119,7 @@ APC.SetSelectedRecipe = function(name, recipeIndex)
         return false
     end
 end
+
 APC.SetMoneyFrameCopper = function(moneyframe, price)
     if price then
         MoneyInputFrame_SetCopper(moneyframe, price)
@@ -131,6 +127,23 @@ APC.SetMoneyFrameCopper = function(moneyframe, price)
         MoneyInputFrame_SetCopper(moneyframe, 0)
     end
 end
+
+APC.GetPrice = function(item, priceType)
+    if priceType == 'default' then
+        if APC.defaultPrice == 'market' then
+            return APC.GetMarketPrice(item.itemLink)
+        else
+            return APC.GetAlgorithmPrice(APC.defaultPrice, item.itemLink)
+        end
+    elseif priceType == 'market' then
+        return APC.GetMarketPrice(item.itemLink)
+    elseif priceType == 'fixed' then
+        return item.price
+    else
+        return APC.GetAlgorithmPrice(priceType, item.itemLink)
+    end
+end
+
 function logTable(table)
     for key, value in pairs(table) do
          print(key, value)
