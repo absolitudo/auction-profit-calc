@@ -51,23 +51,50 @@ APC.frames.mainFrame.InitFrame = function(self)
     APC.frames.mainFrame.selectedRecipeName:SetMaxLines(1)
     APC.frames.mainFrame.selectedRecipeName:SetTextColor(1, 0.8, 0, 1)
     APC.frames.mainFrame.selectedRecipeName:SetPoint('TOPLEFT', APC.frames.mainFrame, 'TOPLEFT', 55, -45)
-    -- Selected recipe price selection button
-    APC.frames.mainFrame.selectRecipePriceButton = selectBox:Create("SelectRecipePriceButton", APC.frames.mainFrame, 120, function(self)
-        APC.selectedRecipe.price = APC.GetPrice(APC.selectedRecipe, self.value)
-        APC.SetMoneyFrameCopper(APC.frames.mainFrame.APCPriceBox, APC.selectedRecipe.price)
-    end, APC.priceList, APC.defaultPrice)
-    APC.frames.mainFrame.selectRecipePriceButton:UpdateValue()
-    APC.frames.mainFrame.selectRecipePriceButton:SetPoint("TOPLEFT", APC.frames.mainFrame, "TOPLEFT", 173, -37)
 
     --Price box container
-    APC.frames.mainFrame.recipePriceContainer = CreateFrame("Frame", 'PriceContainer', APC.frames.mainFrame)
+    APC.frames.mainFrame.recipePriceContainer = CreateFrame("Frame", 'RecipePriceContainer', APC.frames.mainFrame)
     APC.frames.mainFrame.recipePriceContainer:SetWidth(170)
     APC.frames.mainFrame.recipePriceContainer:SetHeight(20)
     APC.frames.mainFrame.recipePriceContainer:SetPoint('TOPLEFT', APC.frames.mainFrame, 'TOPLEFT', 165, -70)
+    APC.frames.mainFrame.recipePriceContainer.currentPrice = 0
+    APC.frames.mainFrame.recipePriceContainer.priceChangedByUser = false
+    APC.frames.mainFrame.recipePriceContainer.Update = function(self, type)
+        local changedPrice = MoneyInputFrame_GetCopper(APC.frames.mainFrame.recipePriceContainer.APCPriceBox)
+        if type == 'price change' and APC.frames.mainFrame.recipePriceContainer.currentPrice ~= changedPrice then
+            APC.selectedRecipe.price = changedPrice
+
+            APC.frames.mainFrame.recipePriceContainer.currentPrice = APC.selectedRecipe.price
+            
+            APC.SetMoneyFrameCopper(APC.frames.mainFrame.recipePriceContainer.APCPriceBox, APC.selectedRecipe.price)
+            if APC.frames.mainFrame.recipePriceContainer.priceChangedByUser then
+                APC.frames.mainFrame.recipePriceContainer.selectRecipePriceButton.value = 'fixed'
+                APC.frames.mainFrame.recipePriceContainer.selectRecipePriceButton:UpdateValue()
+            end
+        end
+        if type == 'price selection' then
+            APC.selectedRecipe.price = APC.GetPrice(APC.selectedRecipe, self.selectRecipePriceButton.value)
+            
+            APC.frames.mainFrame.recipePriceContainer.currentPrice = APC.selectedRecipe.price
+            
+            APC.SetMoneyFrameCopper(APC.frames.mainFrame.recipePriceContainer.APCPriceBox, APC.selectedRecipe.price)
+            
+        end
+        
+        APC.frames.mainFrame.recipePriceContainer.priceChangedByUser = true
+
+
+    end
+
+    -- Selected recipe price selection button
+    APC.frames.mainFrame.recipePriceContainer.selectRecipePriceButton = selectBox:Create("SelectRecipePriceButton", APC.frames.mainFrame.recipePriceContainer, 120, function(self) APC.frames.mainFrame.recipePriceContainer:Update('price selection')  end, APC.priceList, APC.defaultPrice)
+    APC.frames.mainFrame.recipePriceContainer.selectRecipePriceButton:UpdateValue()
+    APC.frames.mainFrame.recipePriceContainer.selectRecipePriceButton:SetPoint("TOPLEFT", APC.frames.mainFrame, "TOPLEFT", 173, -37)
+   
     -- Price box
-    APC.frames.mainFrame.APCPriceBox = CreateFrame("Frame", 'APCPriceBox', APC.frames.mainFrame.recipePriceContainer, "MoneyInputFrameTemplate")
-    APC.frames.mainFrame.APCPriceBox:SetPoint("TOPLEFT", APC.frames.mainFrame.recipePriceContainer, "TOPLEFT", 0, 0)
-    --MoneyInputFrame_SetOnValueChangedFunc(APC.frames.mainFrame.APCPriceBox, function() MoneyInputFrame_GetCopper(APC.frames.mainFrame.APCPriceBox) end)
+    APC.frames.mainFrame.recipePriceContainer.APCPriceBox = CreateFrame("Frame", 'APCPriceBox', APC.frames.mainFrame.recipePriceContainer, "MoneyInputFrameTemplate")
+    APC.frames.mainFrame.recipePriceContainer.APCPriceBox:SetPoint("TOPLEFT", APC.frames.mainFrame.recipePriceContainer, "TOPLEFT", 0, 0)
+    MoneyInputFrame_SetOnValueChangedFunc(APC.frames.mainFrame.recipePriceContainer.APCPriceBox, function() APC.frames.mainFrame.recipePriceContainer:Update('price change') end)
 
     -- Scrollframe for reagents
     APC.frames.mainFrame.scrollFrame = CreateFrame("ScrollFrame", "AucProfitCalcScroll", APC.frames.mainFrame, 'FauxScrollFrameTemplate')

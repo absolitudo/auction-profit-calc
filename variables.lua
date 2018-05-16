@@ -54,13 +54,15 @@ APC.GetMarketPrice = AucAdvanced.API.GetMarketValue
 APC.GetAlgorithmPrice = AucAdvanced.API.GetAlgorithmValue
 
 APC.UpdateSelectedRecipeInMainFrame = function()
+
     APC.frames.mainFrame.selectedRecipeIcon.texture:SetTexture(APC.selectedRecipe.icon)
     APC.frames.mainFrame.selectedRecipeName:SetText(APC.selectedRecipe.name)
 
-    APC.frames.mainFrame.selectRecipePriceButton.value = APC.defaultPrice
-    APC.frames.mainFrame.selectRecipePriceButton:UpdateValue()
-
-    APC.SetMoneyFrameCopper(APC.frames.mainFrame.APCPriceBox, APC.selectedRecipe.price)
+    APC.frames.mainFrame.recipePriceContainer.selectRecipePriceButton.value = APC.defaultPrice
+    APC.frames.mainFrame.recipePriceContainer.selectRecipePriceButton:UpdateValue()
+    
+    APC.frames.mainFrame.recipePriceContainer.priceChangedByUser = false
+    APC.SetMoneyFrameCopper(APC.frames.mainFrame.recipePriceContainer.APCPriceBox, APC.selectedRecipe.price)
     
     if APC.selectedRecipe.count > 1 then
         APC.frames.mainFrame.selectedRecipeCount:SetText(APC.selectedRecipe.count)
@@ -68,6 +70,7 @@ APC.UpdateSelectedRecipeInMainFrame = function()
     else
         APC.frames.mainFrame.selectedRecipeCount:Hide()
     end
+    
 end
 
 APC.UpdateScrollFrameRow = function(row, reagentInfo)
@@ -90,12 +93,16 @@ APC.SetSelectedRecipe = function(name, recipeIndex)
     local minMade, maxMade = GetTradeSkillNumMade(recipeIndex)
     local shouldItUpdate = true
     
+    newSelectedRecipe.itemLink = GetTradeSkillItemLink(recipeIndex)
+    if APC.selectedRecipe and newSelectedRecipe.itemLink == APC.selectedRecipe.itemLink then
+        return false
+    end
+
     newSelectedRecipe.name = name
     newSelectedRecipe.index = recipeIndex
     newSelectedRecipe.icon = GetTradeSkillIcon(recipeIndex)
     newSelectedRecipe.count = (minMade + maxMade) / 2
     newSelectedRecipe.reagents = {}
-    newSelectedRecipe.itemLink = GetTradeSkillItemLink(recipeIndex)
     newSelectedRecipe.price = APC.GetPrice(newSelectedRecipe, APC.defaultPrice)
 
     for reagentIndex = 1, GetTradeSkillNumReagents(recipeIndex) do
@@ -131,16 +138,16 @@ end
 APC.GetPrice = function(item, priceType)
     if priceType == 'default' then
         if APC.defaultPrice == 'market' then
-            return APC.GetMarketPrice(item.itemLink)
+            return APC.GetMarketPrice(item.itemLink) or 0
         else
-            return APC.GetAlgorithmPrice(APC.defaultPrice, item.itemLink)
+            return APC.GetAlgorithmPrice(APC.defaultPrice, item.itemLink) or 0
         end
     elseif priceType == 'market' then
-        return APC.GetMarketPrice(item.itemLink)
+        return APC.GetMarketPrice(item.itemLink) or 0
     elseif priceType == 'fixed' then
         return item.price
     else
-        return APC.GetAlgorithmPrice(priceType, item.itemLink)
+        return APC.GetAlgorithmPrice(priceType, item.itemLink) or 0
     end
 end
 
