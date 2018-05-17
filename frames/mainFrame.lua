@@ -172,7 +172,31 @@ APC.frames.mainFrame.InitFrame = function(self)
         currentRow.recipePriceContainer.currentPrice = 0
         currentRow.recipePriceContainer.priceChangedByUser = false
         currentRow.recipePriceContainer.Update = function(self, type)
+            local changedPrice = MoneyInputFrame_GetCopper(self.APCPriceBox)
+
+            if type == 'price change' and self.currentPrice ~= changedPrice then
+                APC.selectedRecipe.reagents[i].price = changedPrice
+
+                self.currentPrice = APC.selectedRecipe.reagents[i].price
+                
+                APC.SetMoneyFrameCopper(self.APCPriceBox, APC.selectedRecipe.reagents[i].price)
+
+                if self.priceChangedByUser then
+                    self.selectRecipePriceButton.value = 'fixed'
+                    self.selectRecipePriceButton:UpdateValue()
+                end
+            end
+            if type == 'price selection' then
+                
+                APC.selectedRecipe.reagents[i].price = APC.GetPrice(APC.selectedRecipe.reagents[i], self.selectRecipePriceButton.value)
+                
+                self.currentPrice = APC.selectedRecipe.reagents[i].price
+                
+                APC.SetMoneyFrameCopper(self.APCPriceBox, APC.selectedRecipe.reagents[i].price)
+                
+            end
             
+            self.priceChangedByUser = true
         end
 
         -- reagent price selection button

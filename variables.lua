@@ -79,7 +79,8 @@ APC.UpdateScrollFrameRow = function(row, reagentInfo)
 
     row.recipePriceContainer.selectRecipePriceButton.value = APC.defaultPrice
     row.recipePriceContainer.selectRecipePriceButton:UpdateValue()
-
+    
+    row.recipePriceContainer.priceChangedByUser = false
     APC.SetMoneyFrameCopper(row.recipePriceContainer.APCPriceBox, reagentInfo.price)
 
     if reagentInfo.count > 1 then
