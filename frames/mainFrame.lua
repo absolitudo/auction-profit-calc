@@ -165,20 +165,24 @@ APC.frames.mainFrame.InitFrame = function(self)
         currentRow.reagentName:SetFontObject('GameFontHighlight')
         currentRow.reagentName:SetPoint('TOPLEFT', currentRow, 'TOPLEFT', 55, -20)
 
-        -- reagent price selection button
-        currentRow.selectRecipePriceButton = selectBox:Create("SelectRecipePriceButton" .. i, currentRow, 120, function(self) end, APC.priceList, APC.defaultPrice)
-        currentRow.selectRecipePriceButton:UpdateValue()
-        currentRow.selectRecipePriceButton:SetPoint("TOPLEFT", currentRow, "TOPLEFT", 173, -37)
-
         -- Reagent recipe price container
         currentRow.recipePriceContainer = CreateFrame("Frame", 'ReagentPriceContainer' .. i, currentRow)
         currentRow.recipePriceContainer:SetWidth(170)
         currentRow.recipePriceContainer:SetHeight(20)
         currentRow.recipePriceContainer:SetPoint('TOPLEFT', currentRow, 'TOPLEFT', 50, -50)
+        currentRow.recipePriceContainer.Update = function(self, type)
+            print(type)
+        end
+
+        -- reagent price selection button
+        currentRow.recipePriceContainer.selectRecipePriceButton = selectBox:Create("SelectRecipePriceButton" .. i, currentRow, 120, function(self) currentRow.recipePriceContainer:Update('price selection') end, APC.priceList, APC.defaultPrice)
+        currentRow.recipePriceContainer.selectRecipePriceButton:UpdateValue()
+        currentRow.recipePriceContainer.selectRecipePriceButton:SetPoint("TOPLEFT", currentRow, "TOPLEFT", 173, -37)
+        
         -- Price box
-        currentRow.APCPriceBox = CreateFrame("Frame", 'APCPriceBox' .. i, currentRow.recipePriceContainer, "MoneyInputFrameTemplate")
-        currentRow.APCPriceBox:SetPoint("TOPLEFT", currentRow, "TOPLEFT", 0, 0)
-        --MoneyInputFrame_SetOnValueChangedFunc(currentRow.APCPriceBox, function() print(MoneyInputFrame_GetCopper(currentRow.APCPriceBox)) end)
+        currentRow.recipePriceContainer.APCPriceBox = CreateFrame("Frame", 'APCPriceBox' .. i, currentRow.recipePriceContainer, "MoneyInputFrameTemplate")
+        currentRow.recipePriceContainer.APCPriceBox:SetPoint("TOPLEFT", currentRow, "TOPLEFT", 0, 0)
+        MoneyInputFrame_SetOnValueChangedFunc(currentRow.recipePriceContainer.APCPriceBox, function() currentRow.recipePriceContainer:Update('price change') end)
 
         if i == 1 then 
             currentRow:SetPoint("TOPLEFT", APC.frames.mainFrame.scrollFrame, 'TOPLEFT' , 0, 0)

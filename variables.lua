@@ -77,8 +77,10 @@ APC.UpdateScrollFrameRow = function(row, reagentInfo)
     row.reagentName:SetText(reagentInfo.name)
     row.reagentIcon.texture:SetTexture(reagentInfo.icon)
 
-    row.selectRecipePriceButton.value = APC.defaultPrice
-    row.selectRecipePriceButton:UpdateValue()
+    row.recipePriceContainer.selectRecipePriceButton.value = APC.defaultPrice
+    row.recipePriceContainer.selectRecipePriceButton:UpdateValue()
+
+    APC.SetMoneyFrameCopper(row.recipePriceContainer.APCPriceBox, reagentInfo.price)
 
     if reagentInfo.count > 1 then
         row.reagentCount:SetText(reagentInfo.count)
@@ -106,19 +108,24 @@ APC.SetSelectedRecipe = function(name, recipeIndex)
     newSelectedRecipe.price = APC.GetPrice(newSelectedRecipe, APC.defaultPrice)
 
     for reagentIndex = 1, GetTradeSkillNumReagents(recipeIndex) do
+        local currentReagent = {}
         local reagentName, reagentTexture, reagentCount = GetTradeSkillReagentInfo(recipeIndex, reagentIndex)
+        local reagentItemLink = GetTradeSkillReagentItemLink(recipeIndex, reagentIndex)
+        
         if reagentName == nil or reagentTexture == nil then
             shouldItUpdate = false
             break
         end
-        local reagentItemLink = GetTradeSkillReagentItemLink(recipeIndex, reagentIndex)
-        newSelectedRecipe.reagents[reagentIndex] = {
-            name = reagentName,
-            icon = reagentTexture,
-            count = reagentCount,
-            itemLink = reagentItemLink
-        }
+
+        currentReagent.name = reagentName
+        currentReagent.icon = reagentTexture
+        currentReagent.count = reagentCount
+        currentReagent.itemLink = reagentItemLink
+        currentReagent.price = APC.GetPrice(currentReagent, APC.defaultPrice)
+
+        newSelectedRecipe.reagents[reagentIndex] = currentReagent
     end
+
     if shouldItUpdate then
         APC.selectedRecipe = newSelectedRecipe
         return true
