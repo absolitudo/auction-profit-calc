@@ -60,29 +60,28 @@ APC.frames.mainFrame.InitFrame = function(self)
     APC.frames.mainFrame.recipePriceContainer.currentPrice = 0
     APC.frames.mainFrame.recipePriceContainer.priceChangedByUser = false
     APC.frames.mainFrame.recipePriceContainer.Update = function(self, type)
-        local changedPrice = MoneyInputFrame_GetCopper(APC.frames.mainFrame.recipePriceContainer.APCPriceBox)
-        if type == 'price change' and APC.frames.mainFrame.recipePriceContainer.currentPrice ~= changedPrice then
+        local changedPrice = MoneyInputFrame_GetCopper(self.APCPriceBox)
+        if type == 'price change' and self.currentPrice ~= changedPrice then
             APC.selectedRecipe.price = changedPrice
 
-            APC.frames.mainFrame.recipePriceContainer.currentPrice = APC.selectedRecipe.price
+            self.currentPrice = APC.selectedRecipe.price
             
-            APC.SetMoneyFrameCopper(APC.frames.mainFrame.recipePriceContainer.APCPriceBox, APC.selectedRecipe.price)
-            if APC.frames.mainFrame.recipePriceContainer.priceChangedByUser then
-                APC.frames.mainFrame.recipePriceContainer.selectRecipePriceButton.value = 'fixed'
-                APC.frames.mainFrame.recipePriceContainer.selectRecipePriceButton:UpdateValue()
+            APC.SetMoneyFrameCopper(self.APCPriceBox, APC.selectedRecipe.price)
+            if self.priceChangedByUser then
+                self.selectRecipePriceButton.value = 'fixed'
+                self.selectRecipePriceButton:UpdateValue()
             end
         end
         if type == 'price selection' then
             APC.selectedRecipe.price = APC.GetPrice(APC.selectedRecipe, self.selectRecipePriceButton.value)
             
-            APC.frames.mainFrame.recipePriceContainer.currentPrice = APC.selectedRecipe.price
+            self.currentPrice = APC.selectedRecipe.price
             
-            APC.SetMoneyFrameCopper(APC.frames.mainFrame.recipePriceContainer.APCPriceBox, APC.selectedRecipe.price)
+            APC.SetMoneyFrameCopper(self.APCPriceBox, APC.selectedRecipe.price)
             
         end
         
-        APC.frames.mainFrame.recipePriceContainer.priceChangedByUser = true
-
+        self.priceChangedByUser = true
 
     end
 
@@ -170,8 +169,10 @@ APC.frames.mainFrame.InitFrame = function(self)
         currentRow.recipePriceContainer:SetWidth(170)
         currentRow.recipePriceContainer:SetHeight(20)
         currentRow.recipePriceContainer:SetPoint('TOPLEFT', currentRow, 'TOPLEFT', 50, -50)
+        currentRow.recipePriceContainer.currentPrice = 0
+        currentRow.recipePriceContainer.priceChangedByUser = false
         currentRow.recipePriceContainer.Update = function(self, type)
-            print(type)
+            
         end
 
         -- reagent price selection button
