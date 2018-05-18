@@ -193,6 +193,29 @@ APC.frames.mainFrame.InitFrame = function(self)
     APC.frames.mainFrame.displayProfit.silver.texture:SetPoint('RIGHT', APC.frames.mainFrame.displayProfit.silver, 'RIGHT')
     APC.frames.mainFrame.displayProfit.silver.texture:SetTexture('Interface\\MoneyFrame\\UI-SilverIcon')
 
+    -- Display profit copper
+    APC.frames.mainFrame.displayProfit.copper = CreateFrame('Frame', '$parentCopperFrame', APC.frames.mainFrame.displayProfit)
+    APC.frames.mainFrame.displayProfit.copper:SetWidth(30)
+    APC.frames.mainFrame.displayProfit.copper:SetHeight(20)
+    APC.frames.mainFrame.displayProfit.copper:SetPoint('LEFT', APC.frames.mainFrame.displayProfit, 'LEFT', 250, 0)
+
+    -- Display profit silver text
+    APC.frames.mainFrame.displayProfit.copper.text = APC.frames.mainFrame.displayProfit.gold:CreateFontString('APCDisplayProfitCopperText')
+    APC.frames.mainFrame.displayProfit.copper.text:SetFontObject('GameFontHighlight')
+    APC.frames.mainFrame.displayProfit.copper.text:SetTextColor(1, 1, 1, 1)
+    APC.frames.mainFrame.displayProfit.copper.text:SetPoint('RIGHT', APC.frames.mainFrame.displayProfit.copper, 'RIGHT', -15, 0)
+    APC.frames.mainFrame.displayProfit.copper.text:SetMaxLines(1)
+    APC.frames.mainFrame.displayProfit.copper.text:SetWidth(15)
+    APC.frames.mainFrame.displayProfit.copper.text:SetJustifyH('RIGHT')
+    APC.frames.mainFrame.displayProfit.copper.text:SetText('1')
+
+    -- Display profit silver icon
+    APC.frames.mainFrame.displayProfit.copper.texture = APC.frames.mainFrame.displayProfit.copper:CreateTexture("$parentIcon")
+    APC.frames.mainFrame.displayProfit.copper.texture:SetWidth(14)
+    APC.frames.mainFrame.displayProfit.copper.texture:SetHeight(14)
+    APC.frames.mainFrame.displayProfit.copper.texture:SetPoint('RIGHT', APC.frames.mainFrame.displayProfit.copper, 'RIGHT')
+    APC.frames.mainFrame.displayProfit.copper.texture:SetTexture('Interface\\MoneyFrame\\UI-CopperIcon')
+
     -- Rows in scrollframe
     for i = 1, APC.frames.mainFrame.scrollFrame.numberOfRows, 1 do
         -- Creation of the row
