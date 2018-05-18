@@ -96,44 +96,6 @@ APC.frames.mainFrame.InitFrame = function(self)
     APC.frames.mainFrame.recipePriceContainer.APCPriceBox:SetPoint("TOPLEFT", APC.frames.mainFrame.recipePriceContainer, "TOPLEFT", 0, 0)
     MoneyInputFrame_SetOnValueChangedFunc(APC.frames.mainFrame.recipePriceContainer.APCPriceBox, function() APC.frames.mainFrame.recipePriceContainer:Update('price change') end)
 
-    -- Scrollframe for reagents
-    APC.frames.mainFrame.scrollFrame = CreateFrame("ScrollFrame", "AucProfitCalcScroll", APC.frames.mainFrame, 'FauxScrollFrameTemplate')
-    APC.frames.mainFrame.scrollFrame.height = 260
-    APC.frames.mainFrame.scrollFrame.numberOfRows = 2
-    APC.frames.mainFrame.scrollFrame.rowHeight = APC.frames.mainFrame.scrollFrame.height / APC.frames.mainFrame.scrollFrame.numberOfRows
-    APC.frames.mainFrame.scrollFrame:SetWidth(310)
-    APC.frames.mainFrame.scrollFrame:SetHeight(APC.frames.mainFrame.scrollFrame.height)
-    APC.frames.mainFrame.scrollFrame:SetPoint("TOPLEFT", APC.frames.mainFrame, "TOPLEFT", 0, -116)
-    APC.frames.mainFrame.scrollFrame.rows = {}
-    APC.frames.mainFrame.scrollFrame.Update = function(self)
-        FauxScrollFrame_Update(self, #APC.selectedRecipe.reagents, APC.frames.mainFrame.scrollFrame.numberOfRows, APC.frames.mainFrame.scrollFrame.rowHeight,  nil, nil, nil, nil, nil, nil, true)
-
-        local offset = FauxScrollFrame_GetOffset(self)
-
-        for i = 1, APC.frames.mainFrame.scrollFrame.numberOfRows do
-            local value = offset + i
-            local row = self.rows[i]
-            if value <= #APC.selectedRecipe.reagents then
-                APC.UpdateScrollFrameRow(row, APC.selectedRecipe.reagents[value])
-                if not row:IsVisible() then
-                    row:Show()
-                end
-            else
-                row:Hide()
-            end
-        end
-    end
-    APC.frames.mainFrame.scrollFrame:SetScript("OnVerticalScroll", function(self, offset)
-        FauxScrollFrame_OnVerticalScroll(self, offset, APC.frames.mainFrame.scrollFrame.rowHeight, APC.frames.mainFrame.scrollFrame.Update)
-    end)
-
-    -- Reagents text for scrollframe
-    APC.frames.mainFrame.scrollFrame.title = APC.frames.mainFrame.scrollFrame:CreateFontString('ScrollFrameTitle')
-    APC.frames.mainFrame.scrollFrame.title:SetFontObject('GameFontHighlight')
-    APC.frames.mainFrame.scrollFrame.title:SetTextColor(1, 0.8, 0, 1)
-    APC.frames.mainFrame.scrollFrame.title:SetPoint('TOPLEFT', APC.frames.mainFrame.scrollFrame, 'TOPLEFT', 10, 15)
-    APC.frames.mainFrame.scrollFrame.title:SetText('Reagents:')
-
     -- Display profit
     APC.frames.mainFrame.displayProfit = CreateFrame('Frame', 'APCDisplayProfit', APC.frames.mainFrame)
     APC.frames.mainFrame.displayProfit:SetWidth(338)
@@ -169,7 +131,7 @@ APC.frames.mainFrame.InitFrame = function(self)
     APC.frames.mainFrame.displayProfit.gold.texture:SetHeight(14)
     APC.frames.mainFrame.displayProfit.gold.texture:SetPoint('RIGHT', APC.frames.mainFrame.displayProfit.gold, 'RIGHT')
     APC.frames.mainFrame.displayProfit.gold.texture:SetTexture('Interface\\MoneyFrame\\UI-GoldIcon')
-    
+
     -- Display profit silver
     APC.frames.mainFrame.displayProfit.silver = CreateFrame('Frame', '$parentSilverFrame', APC.frames.mainFrame.displayProfit)
     APC.frames.mainFrame.displayProfit.silver:SetWidth(30)
@@ -182,7 +144,7 @@ APC.frames.mainFrame.InitFrame = function(self)
     APC.frames.mainFrame.displayProfit.silver.text:SetTextColor(1, 1, 1, 1)
     APC.frames.mainFrame.displayProfit.silver.text:SetPoint('RIGHT', APC.frames.mainFrame.displayProfit.silver, 'RIGHT', -15, 0)
     APC.frames.mainFrame.displayProfit.silver.text:SetMaxLines(1)
-    APC.frames.mainFrame.displayProfit.silver.text:SetWidth(15)
+    APC.frames.mainFrame.displayProfit.silver.text:SetWidth(20)
     APC.frames.mainFrame.displayProfit.silver.text:SetJustifyH('RIGHT')
     APC.frames.mainFrame.displayProfit.silver.text:SetText('10')
 
@@ -199,22 +161,60 @@ APC.frames.mainFrame.InitFrame = function(self)
     APC.frames.mainFrame.displayProfit.copper:SetHeight(20)
     APC.frames.mainFrame.displayProfit.copper:SetPoint('LEFT', APC.frames.mainFrame.displayProfit, 'LEFT', 250, 0)
 
-    -- Display profit silver text
+    -- Display profit copper text
     APC.frames.mainFrame.displayProfit.copper.text = APC.frames.mainFrame.displayProfit.gold:CreateFontString('APCDisplayProfitCopperText')
     APC.frames.mainFrame.displayProfit.copper.text:SetFontObject('GameFontHighlight')
     APC.frames.mainFrame.displayProfit.copper.text:SetTextColor(1, 1, 1, 1)
     APC.frames.mainFrame.displayProfit.copper.text:SetPoint('RIGHT', APC.frames.mainFrame.displayProfit.copper, 'RIGHT', -15, 0)
     APC.frames.mainFrame.displayProfit.copper.text:SetMaxLines(1)
-    APC.frames.mainFrame.displayProfit.copper.text:SetWidth(15)
+    APC.frames.mainFrame.displayProfit.copper.text:SetWidth(20)
     APC.frames.mainFrame.displayProfit.copper.text:SetJustifyH('RIGHT')
-    APC.frames.mainFrame.displayProfit.copper.text:SetText('1')
+    APC.frames.mainFrame.displayProfit.copper.text:SetText('10')
 
-    -- Display profit silver icon
+    -- Display profit copper icon
     APC.frames.mainFrame.displayProfit.copper.texture = APC.frames.mainFrame.displayProfit.copper:CreateTexture("$parentIcon")
     APC.frames.mainFrame.displayProfit.copper.texture:SetWidth(14)
     APC.frames.mainFrame.displayProfit.copper.texture:SetHeight(14)
     APC.frames.mainFrame.displayProfit.copper.texture:SetPoint('RIGHT', APC.frames.mainFrame.displayProfit.copper, 'RIGHT')
     APC.frames.mainFrame.displayProfit.copper.texture:SetTexture('Interface\\MoneyFrame\\UI-CopperIcon')
+
+    -- Scrollframe for reagents
+    APC.frames.mainFrame.scrollFrame = CreateFrame("ScrollFrame", "AucProfitCalcScroll", APC.frames.mainFrame, 'FauxScrollFrameTemplate')
+    APC.frames.mainFrame.scrollFrame.height = 260
+    APC.frames.mainFrame.scrollFrame.numberOfRows = 2
+    APC.frames.mainFrame.scrollFrame.rowHeight = APC.frames.mainFrame.scrollFrame.height / APC.frames.mainFrame.scrollFrame.numberOfRows
+    APC.frames.mainFrame.scrollFrame:SetWidth(310)
+    APC.frames.mainFrame.scrollFrame:SetHeight(APC.frames.mainFrame.scrollFrame.height)
+    APC.frames.mainFrame.scrollFrame:SetPoint("TOPLEFT", APC.frames.mainFrame, "TOPLEFT", 0, -116)
+    APC.frames.mainFrame.scrollFrame.rows = {}
+    APC.frames.mainFrame.scrollFrame.Update = function(self)
+        FauxScrollFrame_Update(self, #APC.selectedRecipe.reagents, APC.frames.mainFrame.scrollFrame.numberOfRows, APC.frames.mainFrame.scrollFrame.rowHeight,  nil, nil, nil, nil, nil, nil, true)
+
+        local offset = FauxScrollFrame_GetOffset(self)
+        APC.selectedRecipe.reagents.offset = offset
+        for i = 1, APC.frames.mainFrame.scrollFrame.numberOfRows do
+            local value = offset + i
+            local row = self.rows[i]
+            if value <= #APC.selectedRecipe.reagents then
+                APC.UpdateScrollFrameRow(row, APC.selectedRecipe.reagents[value])
+                if not row:IsVisible() then
+                    row:Show()
+                end
+            else
+                row:Hide()
+            end
+        end
+    end
+    APC.frames.mainFrame.scrollFrame:SetScript("OnVerticalScroll", function(self, offset)
+        FauxScrollFrame_OnVerticalScroll(self, offset, APC.frames.mainFrame.scrollFrame.rowHeight, APC.frames.mainFrame.scrollFrame.Update)
+    end)
+
+    -- Reagents text for scrollframe
+    APC.frames.mainFrame.scrollFrame.title = APC.frames.mainFrame.scrollFrame:CreateFontString('ScrollFrameTitle')
+    APC.frames.mainFrame.scrollFrame.title:SetFontObject('GameFontHighlight')
+    APC.frames.mainFrame.scrollFrame.title:SetTextColor(1, 0.8, 0, 1)
+    APC.frames.mainFrame.scrollFrame.title:SetPoint('TOPLEFT', APC.frames.mainFrame.scrollFrame, 'TOPLEFT', 10, 15)
+    APC.frames.mainFrame.scrollFrame.title:SetText('Reagents:')
 
     -- Rows in scrollframe
     for i = 1, APC.frames.mainFrame.scrollFrame.numberOfRows, 1 do
@@ -257,12 +257,20 @@ APC.frames.mainFrame.InitFrame = function(self)
         currentRow.recipePriceContainer.Update = function(self, type)
             local changedPrice = MoneyInputFrame_GetCopper(self.APCPriceBox)
 
-            if type == 'price change' and self.currentPrice ~= changedPrice then
-                APC.selectedRecipe.reagents[i].price = changedPrice
+            local offset = 0
 
-                self.currentPrice = APC.selectedRecipe.reagents[i].price
+            if APC.selectedRecipe then
+                offset =  APC.selectedRecipe.reagents.offset
+            end   
+
+            local index = offset + i
+
+            if type == 'price change' and self.currentPrice ~= changedPrice then
+                APC.selectedRecipe.reagents[index].price = changedPrice
+
+                self.currentPrice = APC.selectedRecipe.reagents[index].price
                 
-                APC.SetMoneyFrameCopper(self.APCPriceBox, APC.selectedRecipe.reagents[i].price)
+                APC.SetMoneyFrameCopper(self.APCPriceBox, APC.selectedRecipe.reagents[index].price)
 
                 if self.priceChangedByUser then
                     self.selectRecipePriceButton.value = 'fixed'
@@ -271,11 +279,11 @@ APC.frames.mainFrame.InitFrame = function(self)
             end
             if type == 'price selection' then
                 
-                APC.selectedRecipe.reagents[i].price = APC.GetPrice(APC.selectedRecipe.reagents[i], self.selectRecipePriceButton.value)
+                APC.selectedRecipe.reagents[index].price = APC.GetPrice(APC.selectedRecipe.reagents[index], self.selectRecipePriceButton.value)
                 
-                self.currentPrice = APC.selectedRecipe.reagents[i].price
+                self.currentPrice = APC.selectedRecipe.reagents[index].price
                 
-                APC.SetMoneyFrameCopper(self.APCPriceBox, APC.selectedRecipe.reagents[i].price)
+                APC.SetMoneyFrameCopper(self.APCPriceBox, APC.selectedRecipe.reagents[index].price)
                 
             end
             

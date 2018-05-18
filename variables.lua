@@ -106,6 +106,7 @@ APC.SetSelectedRecipe = function(name, recipeIndex)
     newSelectedRecipe.icon = GetTradeSkillIcon(recipeIndex)
     newSelectedRecipe.count = (minMade + maxMade) / 2
     newSelectedRecipe.reagents = {}
+    newSelectedRecipe.reagents.offset = 0
     newSelectedRecipe.price = APC.GetPrice(newSelectedRecipe, APC.defaultPrice)
 
     for reagentIndex = 1, GetTradeSkillNumReagents(recipeIndex) do
