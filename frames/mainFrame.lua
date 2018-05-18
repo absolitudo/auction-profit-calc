@@ -154,7 +154,7 @@ APC.frames.mainFrame.InitFrame = function(self)
     APC.frames.mainFrame.displayProfit.gold:SetPoint('LEFT', APC.frames.mainFrame.displayProfit, 'LEFT', 120, 0)
 
     -- Display profit gold text
-    APC.frames.mainFrame.displayProfit.gold.text = APC.frames.mainFrame.displayProfit.gold:CreateFontString('APCDisplayProfitText')
+    APC.frames.mainFrame.displayProfit.gold.text = APC.frames.mainFrame.displayProfit.gold:CreateFontString('APCDisplayProfitGoldText')
     APC.frames.mainFrame.displayProfit.gold.text:SetFontObject('GameFontHighlight')
     APC.frames.mainFrame.displayProfit.gold.text:SetTextColor(1, 1, 1, 1)
     APC.frames.mainFrame.displayProfit.gold.text:SetPoint('RIGHT', APC.frames.mainFrame.displayProfit.gold, 'RIGHT', -15, 0)
@@ -170,6 +170,29 @@ APC.frames.mainFrame.InitFrame = function(self)
     APC.frames.mainFrame.displayProfit.gold.texture:SetPoint('RIGHT', APC.frames.mainFrame.displayProfit.gold, 'RIGHT')
     APC.frames.mainFrame.displayProfit.gold.texture:SetTexture('Interface\\MoneyFrame\\UI-GoldIcon')
     
+    -- Display profit silver
+    APC.frames.mainFrame.displayProfit.silver = CreateFrame('Frame', '$parentSilverFrame', APC.frames.mainFrame.displayProfit)
+    APC.frames.mainFrame.displayProfit.silver:SetWidth(30)
+    APC.frames.mainFrame.displayProfit.silver:SetHeight(20)
+    APC.frames.mainFrame.displayProfit.silver:SetPoint('LEFT', APC.frames.mainFrame.displayProfit, 'LEFT', 220, 0)
+
+    -- Display profit silver text
+    APC.frames.mainFrame.displayProfit.silver.text = APC.frames.mainFrame.displayProfit.gold:CreateFontString('APCDisplayProfitSilverText')
+    APC.frames.mainFrame.displayProfit.silver.text:SetFontObject('GameFontHighlight')
+    APC.frames.mainFrame.displayProfit.silver.text:SetTextColor(1, 1, 1, 1)
+    APC.frames.mainFrame.displayProfit.silver.text:SetPoint('RIGHT', APC.frames.mainFrame.displayProfit.silver, 'RIGHT', -15, 0)
+    APC.frames.mainFrame.displayProfit.silver.text:SetMaxLines(1)
+    APC.frames.mainFrame.displayProfit.silver.text:SetWidth(15)
+    APC.frames.mainFrame.displayProfit.silver.text:SetJustifyH('RIGHT')
+    APC.frames.mainFrame.displayProfit.silver.text:SetText('10')
+
+    -- Display profit silver icon
+    APC.frames.mainFrame.displayProfit.silver.texture = APC.frames.mainFrame.displayProfit.silver:CreateTexture("$parentIcon")
+    APC.frames.mainFrame.displayProfit.silver.texture:SetWidth(14)
+    APC.frames.mainFrame.displayProfit.silver.texture:SetHeight(14)
+    APC.frames.mainFrame.displayProfit.silver.texture:SetPoint('RIGHT', APC.frames.mainFrame.displayProfit.silver, 'RIGHT')
+    APC.frames.mainFrame.displayProfit.silver.texture:SetTexture('Interface\\MoneyFrame\\UI-SilverIcon')
+
     -- Rows in scrollframe
     for i = 1, APC.frames.mainFrame.scrollFrame.numberOfRows, 1 do
         -- Creation of the row
