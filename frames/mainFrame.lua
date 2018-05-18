@@ -138,13 +138,13 @@ APC.frames.mainFrame.InitFrame = function(self)
     APC.frames.mainFrame.displayProfit = CreateFrame('Frame', 'APCDisplayProfit', APC.frames.mainFrame)
     APC.frames.mainFrame.displayProfit:SetWidth(338)
     APC.frames.mainFrame.displayProfit:SetHeight(20)
-    APC.frames.mainFrame.displayProfit:SetPoint('BOTTOM', APC.frames.mainFrame, 'BOTTOM', -10, 0)
+    APC.frames.mainFrame.displayProfit:SetPoint('BOTTOM', APC.frames.mainFrame, 'BOTTOM', 0, 15)
 
     -- Display profit text
     APC.frames.mainFrame.displayProfit.text = APC.frames.mainFrame.displayProfit:CreateFontString('APCDisplayProfitText')
     APC.frames.mainFrame.displayProfit.text:SetFontObject('GameFontHighlight')
     APC.frames.mainFrame.displayProfit.text:SetTextColor(1, 1, 1, 1)
-    APC.frames.mainFrame.displayProfit.text:SetPoint('LEFT', APC.frames.mainFrame.displayProfit, 'LEFT', 20, 0)
+    APC.frames.mainFrame.displayProfit.text:SetPoint('LEFT', APC.frames.mainFrame.displayProfit, 'LEFT', 10, 0)
     APC.frames.mainFrame.displayProfit.text:SetText('Expected Profit:')
 
     -- Display profit gold
