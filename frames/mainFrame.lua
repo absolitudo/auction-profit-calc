@@ -49,6 +49,7 @@ APC.frames.mainFrame.InitFrame = function(self)
     APC.frames.mainFrame.selectedRecipeName:SetFontObject('GameFontHighlight')
     APC.frames.mainFrame.selectedRecipeName:SetWidth(130)
     APC.frames.mainFrame.selectedRecipeName:SetMaxLines(1)
+    APC.frames.mainFrame.selectedRecipeName:SetJustifyH('LEFT')
     APC.frames.mainFrame.selectedRecipeName:SetTextColor(1, 0.8, 0, 1)
     APC.frames.mainFrame.selectedRecipeName:SetPoint('TOPLEFT', APC.frames.mainFrame, 'TOPLEFT', 55, -45)
 
@@ -135,22 +136,38 @@ APC.frames.mainFrame.InitFrame = function(self)
 
     -- Display profit
     APC.frames.mainFrame.displayProfit = CreateFrame('Frame', 'APCDisplayProfit', APC.frames.mainFrame)
-    APC.frames.mainFrame.displayProfit:SetWidth(140)
+    APC.frames.mainFrame.displayProfit:SetWidth(338)
     APC.frames.mainFrame.displayProfit:SetHeight(20)
-    APC.frames.mainFrame.displayProfit:SetPoint('BOTTOM', APC.frames.mainFrame, 'BOTTOM')
+    APC.frames.mainFrame.displayProfit:SetPoint('BOTTOM', APC.frames.mainFrame, 'BOTTOM', -10, 0)
 
+    -- Display profit text
     APC.frames.mainFrame.displayProfit.text = APC.frames.mainFrame.displayProfit:CreateFontString('APCDisplayProfitText')
     APC.frames.mainFrame.displayProfit.text:SetFontObject('GameFontHighlight')
     APC.frames.mainFrame.displayProfit.text:SetTextColor(1, 1, 1, 1)
-    APC.frames.mainFrame.displayProfit.text:SetPoint('LEFT', APC.frames.mainFrame.displayProfit, 'LEFT')
+    APC.frames.mainFrame.displayProfit.text:SetPoint('LEFT', APC.frames.mainFrame.displayProfit, 'LEFT', 20, 0)
     APC.frames.mainFrame.displayProfit.text:SetText('Expected Profit:')
 
+    -- Display profit gold
     APC.frames.mainFrame.displayProfit.gold = CreateFrame('Frame', '$parentGoldFrame', APC.frames.mainFrame.displayProfit)
-    APC.frames.mainFrame.displayProfit.gold:SetWidth(14)
-    APC.frames.mainFrame.displayProfit.gold:SetHeight(14)
-    APC.frames.mainFrame.displayProfit.gold:SetPoint('LEFT', APC.frames.mainFrame.displayProfit, 'LEFT', 40, 0)
+    APC.frames.mainFrame.displayProfit.gold:SetWidth(100)
+    APC.frames.mainFrame.displayProfit.gold:SetHeight(20)
+    APC.frames.mainFrame.displayProfit.gold:SetPoint('LEFT', APC.frames.mainFrame.displayProfit, 'LEFT', 120, 0)
+
+    -- Display profit gold text
+    APC.frames.mainFrame.displayProfit.gold.text = APC.frames.mainFrame.displayProfit.gold:CreateFontString('APCDisplayProfitText')
+    APC.frames.mainFrame.displayProfit.gold.text:SetFontObject('GameFontHighlight')
+    APC.frames.mainFrame.displayProfit.gold.text:SetTextColor(1, 1, 1, 1)
+    APC.frames.mainFrame.displayProfit.gold.text:SetPoint('RIGHT', APC.frames.mainFrame.displayProfit.gold, 'RIGHT', -15, 0)
+    APC.frames.mainFrame.displayProfit.gold.text:SetMaxLines(1)
+    APC.frames.mainFrame.displayProfit.gold.text:SetWidth(80)
+    APC.frames.mainFrame.displayProfit.gold.text:SetJustifyH('RIGHT')
+    APC.frames.mainFrame.displayProfit.gold.text:SetText('1')
+
+    -- Display profit gold icon
     APC.frames.mainFrame.displayProfit.gold.texture = APC.frames.mainFrame.displayProfit.gold:CreateTexture("$parentIcon")
-    APC.frames.mainFrame.displayProfit.gold.texture:SetAllPoints()
+    APC.frames.mainFrame.displayProfit.gold.texture:SetWidth(14)
+    APC.frames.mainFrame.displayProfit.gold.texture:SetHeight(14)
+    APC.frames.mainFrame.displayProfit.gold.texture:SetPoint('RIGHT', APC.frames.mainFrame.displayProfit.gold, 'RIGHT')
     APC.frames.mainFrame.displayProfit.gold.texture:SetTexture('Interface\\MoneyFrame\\UI-GoldIcon')
     
     -- Rows in scrollframe
