@@ -15,6 +15,7 @@ APC.frames.mainFrame.InitFrame = function(self)
     APC.frames.mainFrame:SetHeight(424)
     APC.frames.mainFrame:Hide()
     APC.frames.mainFrame.UpdateSelectedRecipeView = function(self)
+        APC.CalcProfit()
         APC.UpdateSelectedRecipeInMainFrame()
         FauxScrollFrame_OnVerticalScroll(APC.frames.mainFrame.scrollFrame, 0, APC.frames.mainFrame.scrollFrame.rowHeight, APC.frames.mainFrame.scrollFrame.Update)
     end
@@ -83,7 +84,8 @@ APC.frames.mainFrame.InitFrame = function(self)
         end
         
         self.priceChangedByUser = true
-
+        APC.CalcProfit()
+        APC.frames.mainFrame.displayProfit.Update()
     end
 
     -- Selected recipe price selection button
@@ -101,6 +103,16 @@ APC.frames.mainFrame.InitFrame = function(self)
     APC.frames.mainFrame.displayProfit:SetWidth(338)
     APC.frames.mainFrame.displayProfit:SetHeight(20)
     APC.frames.mainFrame.displayProfit:SetPoint('BOTTOM', APC.frames.mainFrame, 'BOTTOM', 0, 15)
+    APC.frames.mainFrame.displayProfit.Update = function()
+
+        local gold = floor(APC.selectedRecipe.profit / (COPPER_PER_GOLD))
+        local silver = abs(floor((APC.selectedRecipe.profit - (gold * COPPER_PER_GOLD)) / COPPER_PER_SILVER))
+        local copper = abs(mod(APC.selectedRecipe.profit, COPPER_PER_SILVER))
+        
+        APC.frames.mainFrame.displayProfit.gold.text:SetText(gold)
+        APC.frames.mainFrame.displayProfit.silver.text:SetText(silver)
+        APC.frames.mainFrame.displayProfit.copper.text:SetText(copper)
+    end
 
     -- Display profit text
     APC.frames.mainFrame.displayProfit.text = APC.frames.mainFrame.displayProfit:CreateFontString('APCDisplayProfitText')
@@ -204,6 +216,9 @@ APC.frames.mainFrame.InitFrame = function(self)
                 row:Hide()
             end
         end
+
+        APC.frames.mainFrame.displayProfit.Update()
+
     end
     APC.frames.mainFrame.scrollFrame:SetScript("OnVerticalScroll", function(self, offset)
         FauxScrollFrame_OnVerticalScroll(self, offset, APC.frames.mainFrame.scrollFrame.rowHeight, APC.frames.mainFrame.scrollFrame.Update)
@@ -288,6 +303,9 @@ APC.frames.mainFrame.InitFrame = function(self)
             end
             
             self.priceChangedByUser = true
+            APC.CalcProfit()
+            APC.frames.mainFrame.displayProfit.Update()
+
         end
 
         -- reagent price selection button
