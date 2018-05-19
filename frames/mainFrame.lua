@@ -148,7 +148,7 @@ APC.frames.mainFrame.InitFrame = function(self)
     APC.frames.mainFrame.displayProfit.silver = CreateFrame('Frame', '$parentSilverFrame', APC.frames.mainFrame.displayProfit)
     APC.frames.mainFrame.displayProfit.silver:SetWidth(30)
     APC.frames.mainFrame.displayProfit.silver:SetHeight(20)
-    APC.frames.mainFrame.displayProfit.silver:SetPoint('LEFT', APC.frames.mainFrame.displayProfit, 'LEFT', 220, 0)
+    APC.frames.mainFrame.displayProfit.silver:SetPoint('LEFT', APC.frames.mainFrame.displayProfit, 'LEFT', 225, 0)
 
     -- Display profit silver text
     APC.frames.mainFrame.displayProfit.silver.text = APC.frames.mainFrame.displayProfit.gold:CreateFontString('APCDisplayProfitSilverText')
@@ -171,7 +171,7 @@ APC.frames.mainFrame.InitFrame = function(self)
     APC.frames.mainFrame.displayProfit.copper = CreateFrame('Frame', '$parentCopperFrame', APC.frames.mainFrame.displayProfit)
     APC.frames.mainFrame.displayProfit.copper:SetWidth(30)
     APC.frames.mainFrame.displayProfit.copper:SetHeight(20)
-    APC.frames.mainFrame.displayProfit.copper:SetPoint('LEFT', APC.frames.mainFrame.displayProfit, 'LEFT', 250, 0)
+    APC.frames.mainFrame.displayProfit.copper:SetPoint('LEFT', APC.frames.mainFrame.displayProfit, 'LEFT', 260, 0)
 
     -- Display profit copper text
     APC.frames.mainFrame.displayProfit.copper.text = APC.frames.mainFrame.displayProfit.gold:CreateFontString('APCDisplayProfitCopperText')
