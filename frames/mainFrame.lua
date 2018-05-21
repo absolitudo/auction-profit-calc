@@ -75,8 +75,9 @@ APC.frames.mainFrame.InitFrame = function(self)
             end
         end
         if type == 'price selection' then
-            APC.selectedRecipe.price = APC.GetPrice(APC.selectedRecipe, self.selectRecipePriceButton.value)
-            
+            APC.selectedRecipe.priceAlgorithm = self.selectRecipePriceButton.value
+            APC.selectedRecipe.price = APC.GetPrice(APC.selectedRecipe, APC.selectedRecipe.priceAlgorithm)
+
             self.currentPrice = APC.selectedRecipe.price
             
             APC.SetMoneyFrameCopper(self.APCPriceBox, APC.selectedRecipe.price)
@@ -294,8 +295,9 @@ APC.frames.mainFrame.InitFrame = function(self)
             end
             if type == 'price selection' then
                 
-                APC.selectedRecipe.reagents[index].price = APC.GetPrice(APC.selectedRecipe.reagents[index], self.selectRecipePriceButton.value)
-                
+                APC.selectedRecipe.reagents[index].priceAlgorithm = self.selectRecipePriceButton.value
+                APC.selectedRecipe.reagents[index].price = APC.GetPrice(APC.selectedRecipe.reagents[index], APC.selectedRecipe.reagents[index].priceAlgorithm)
+
                 self.currentPrice = APC.selectedRecipe.reagents[index].price
                 
                 APC.SetMoneyFrameCopper(self.APCPriceBox, APC.selectedRecipe.reagents[index].price)

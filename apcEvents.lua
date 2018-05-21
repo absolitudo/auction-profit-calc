@@ -1,11 +1,32 @@
 local ns = (select(2, ...))
 local APC = ns
+local processors = AucAdvanced.Modules.Util.Appraiser.Processors
+local clearMarketCache = AucAdvanced.API.ClearMarketCache
+
+hooksecurefunc(processors, 'scanfinish', function() 
+    clearMarketCache()
+    APC.RefreshSelectedRecipePrice()
+
+    if APC.frames.mainFrame:IsShown() then
+        APC.frames.mainFrame:UpdateSelectedRecipeView()
+        APC.frames.mainFrame.scrollFrame:Update()
+    else
+        APC.updateOnShow = true
+    end
+end)
 
 local function TradeSkillRecipeSelectionHook(recipeIndex)
     local name, skillType = GetTradeSkillInfo(recipeIndex)
     if skillType ~= 'header' and skillType ~= nil and skillType ~= 'subheader' then
         if APC.SetSelectedRecipe(name, recipeIndex) then
             APC.frames.mainFrame:UpdateSelectedRecipeView()
+            if APC.updateOnShow then
+                APC.updateOnShow = false
+            end
+        elseif APC.updateOnShow then
+            APC.frames.mainFrame:UpdateSelectedRecipeView()
+            APC.frames.mainFrame.scrollFrame:Update()
+            APC.updateOnShow = false
         end
     end
 end

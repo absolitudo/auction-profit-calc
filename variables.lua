@@ -2,6 +2,7 @@ local ns = (select(2, ...))
 local APC = ns
 
 APC.defaultPrice = 'market'
+APC.updateOnShow = false
 
 APC.frames = {
     mainFrame = {}
@@ -111,7 +112,8 @@ APC.SetSelectedRecipe = function(name, recipeIndex)
     newSelectedRecipe.reagents.offset = 0
     newSelectedRecipe.price = APC.GetPrice(newSelectedRecipe, APC.defaultPrice)
     newSelectedRecipe.profit = 0
-
+    newSelectedRecipe.priceAlgorithm = APC.defaultPrice
+    
     for reagentIndex = 1, GetTradeSkillNumReagents(recipeIndex) do
         local currentReagent = {}
         local reagentName, reagentTexture, reagentCount = GetTradeSkillReagentInfo(recipeIndex, reagentIndex)
@@ -127,6 +129,7 @@ APC.SetSelectedRecipe = function(name, recipeIndex)
         currentReagent.count = reagentCount
         currentReagent.itemLink = reagentItemLink
         currentReagent.price = APC.GetPrice(currentReagent, APC.defaultPrice)
+        currentReagent.priceAlgorithm = APC.defaultPrice
 
         newSelectedRecipe.reagents[reagentIndex] = currentReagent
     end
@@ -169,6 +172,15 @@ APC.CalcProfit = function()
         reagentsPrice = reagentsPrice + APC.selectedRecipe.reagents[i].price * APC.selectedRecipe.reagents[i].count
     end
     APC.selectedRecipe.profit = APC.selectedRecipe.price * APC.selectedRecipe.count - reagentsPrice
+end
+
+APC.RefreshSelectedRecipePrice = function()
+    if APC.selectedRecipe then
+        APC.selectedRecipe.price = APC.GetPrice(APC.selectedRecipe, APC.selectedRecipe.priceAlgorithm)
+        for i = 1, #APC.selectedRecipe.reagents do
+            APC.selectedRecipe.reagents[i].price = APC.GetPrice(APC.selectedRecipe.reagents[i], APC.selectedRecipe.reagents[i].priceAlgorithm)
+        end
+    end
 end
 
 function logTable(table)
