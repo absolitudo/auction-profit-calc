@@ -193,12 +193,17 @@ APC.frames.mainFrame.InitFrame = function(self)
 
     -- Scrollframe for reagents
     APC.frames.mainFrame.scrollFrame = CreateFrame("ScrollFrame", "AucProfitCalcScroll", APC.frames.mainFrame, 'FauxScrollFrameTemplate')
-    APC.frames.mainFrame.scrollFrame.height = 260
-    APC.frames.mainFrame.scrollFrame.numberOfRows = 2
+    APC.frames.mainFrame.scrollFrame.height = 265
+    APC.frames.mainFrame.scrollFrame.numberOfRows = 4
     APC.frames.mainFrame.scrollFrame.rowHeight = APC.frames.mainFrame.scrollFrame.height / APC.frames.mainFrame.scrollFrame.numberOfRows
     APC.frames.mainFrame.scrollFrame:SetWidth(310)
     APC.frames.mainFrame.scrollFrame:SetHeight(APC.frames.mainFrame.scrollFrame.height)
     APC.frames.mainFrame.scrollFrame:SetPoint("TOPLEFT", APC.frames.mainFrame, "TOPLEFT", 0, -116)
+    APC.frames.mainFrame.scrollFrame:SetBackdrop({
+        bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", tile = true, tileSize = 16,
+        insets = { left = 3, right = -23, top = 0, bottom = 0 },
+    })
+     
     APC.frames.mainFrame.scrollFrame.rows = {}
     APC.frames.mainFrame.scrollFrame.Update = function(self)
         FauxScrollFrame_Update(self, #APC.selectedRecipe.reagents, APC.frames.mainFrame.scrollFrame.numberOfRows, APC.frames.mainFrame.scrollFrame.rowHeight,  nil, nil, nil, nil, nil, nil, true)
@@ -239,10 +244,6 @@ APC.frames.mainFrame.InitFrame = function(self)
         local currentRow = APC.frames.mainFrame.scrollFrame.rows[i]
         currentRow:SetWidth(310)
         currentRow:SetHeight(APC.frames.mainFrame.scrollFrame.rowHeight)
-        currentRow:SetBackdrop({
-            bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", tile = true, tileSize = 16,
-            insets = { left = 4, right = 4, top = 4, bottom = 4 },
-        })
 
         -- Reagent icon
         currentRow.reagentIcon = CreateFrame('Frame', '$parentReagentIconFrame', currentRow)
@@ -260,8 +261,11 @@ APC.frames.mainFrame.InitFrame = function(self)
 
         -- Reagent name
         currentRow.reagentName = currentRow:CreateFontString('$parentText' .. i)
+        currentRow.reagentName:SetWidth(115)
+        currentRow.reagentName:SetMaxLines(1)
+        currentRow.reagentName:SetJustifyH('LEFT')
         currentRow.reagentName:SetFontObject('GameFontHighlight')
-        currentRow.reagentName:SetPoint('TOPLEFT', currentRow, 'TOPLEFT', 55, -20)
+        currentRow.reagentName:SetPoint('TOPLEFT', currentRow, 'TOPLEFT', 55, -10)
 
         -- Reagent recipe price container
         currentRow.recipePriceContainer = CreateFrame("Frame", 'ReagentPriceContainer' .. i, currentRow)
@@ -313,11 +317,11 @@ APC.frames.mainFrame.InitFrame = function(self)
         -- reagent price selection button
         currentRow.recipePriceContainer.selectRecipePriceButton = selectBox:Create("SelectRecipePriceButton" .. i, currentRow, 120, function(self) currentRow.recipePriceContainer:Update('price selection') end, APC.priceList, APC.defaultPrice)
         currentRow.recipePriceContainer.selectRecipePriceButton:UpdateValue()
-        currentRow.recipePriceContainer.selectRecipePriceButton:SetPoint("TOPLEFT", currentRow, "TOPLEFT", 173, -37)
+        currentRow.recipePriceContainer.selectRecipePriceButton:SetPoint("TOPLEFT", currentRow, "TOPLEFT", 160, -4)
         
         -- Price box
         currentRow.recipePriceContainer.APCPriceBox = CreateFrame("Frame", 'APCPriceBox' .. i, currentRow.recipePriceContainer, "MoneyInputFrameTemplate")
-        currentRow.recipePriceContainer.APCPriceBox:SetPoint("TOPLEFT", currentRow, "TOPLEFT", 0, 0)
+        currentRow.recipePriceContainer.APCPriceBox:SetPoint("TOPLEFT", currentRow, "TOPLEFT", 60, -30)
         MoneyInputFrame_SetOnValueChangedFunc(currentRow.recipePriceContainer.APCPriceBox, function() currentRow.recipePriceContainer:Update('price change') end)
 
         if i == 1 then 
