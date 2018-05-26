@@ -1,9 +1,10 @@
 ## Interface: 50400
 ## Author: Metcol
 ## Version: 0.8
-## Title: MetcolsAucProfitCalc
-## Notes: Helps you to decide what to craft for profit
+## Title: Auction profit calculator
+## Notes: Helps you to decide what to craft for profit from the auction house. Only works with Auctioneer. Made by: Metcol
 
+libCheck.lua
 variables.lua
 frames\mainFrame.xml
 apcEvents.lua
