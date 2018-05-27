@@ -182,13 +182,3 @@ APC.RefreshSelectedRecipePrice = function()
         end
     end
 end
-
-function logTable(table)
-    for key, value in pairs(table) do
-         print(key, value)
-         if type(value) == 'table' then
-             logTable(value)
-             print('---')
-        end
-    end
-end
