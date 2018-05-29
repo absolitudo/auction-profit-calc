@@ -56,7 +56,7 @@ APC.GetAlgorithmPrice = AucAdvanced.API.GetAlgorithmValue
 
 APC.UpdateSelectedRecipeInMainFrame = function()
 
-    APC.frames.mainFrame.selectedRecipeIcon.texture:SetTexture(APC.selectedRecipe.icon)
+    APC.frames.mainFrame.profitCalculator.selectedRecipeIcon.texture:SetTexture(APC.selectedRecipe.icon)
     APC.frames.mainFrame.selectedRecipeName:SetText(APC.selectedRecipe.name)
 
     APC.frames.mainFrame.recipePriceContainer.selectRecipePriceButton.value = APC.defaultPrice

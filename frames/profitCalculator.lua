@@ -2,27 +2,32 @@ local ns = (select(2, ...))
 local APC = ns
 local selectBox = LibStub:GetLibrary("SelectBox")
 
+local function createProfitCalculatorFrame()
+    APC.frames.mainFrame.profitCalculator = CreateFrame("Frame", "APCProfitCalculatorFrame", APC.frames.mainFrame)
+    APC.frames.mainFrame.profitCalculator:SetAllPoints()
+end
+
+local function createSelectedRecipeIcon()
+    APC.frames.mainFrame.profitCalculator.selectedRecipeIcon = CreateFrame('Frame', 'APCSelectedRecipeIcon', APC.frames.mainFrame.profitCalculator)
+    APC.frames.mainFrame.profitCalculator.selectedRecipeIcon:SetWidth(40)
+    APC.frames.mainFrame.profitCalculator.selectedRecipeIcon:SetHeight(40)
+    APC.frames.mainFrame.profitCalculator.selectedRecipeIcon:SetPoint('TOPLEFT', APC.frames.mainFrame.profitCalculator, 'TOPLEFT', 10, -40)
+    APC.frames.mainFrame.profitCalculator.selectedRecipeIcon.texture = APC.frames.mainFrame.profitCalculator.selectedRecipeIcon:CreateTexture("$parentTexture")
+    APC.frames.mainFrame.profitCalculator.selectedRecipeIcon.texture:SetAllPoints()
+end
+
 APC.frames.frameInitializer.ProfitCalculator = function()
-    APC.frames.mainFrame.profitCalculator = CreateFrame("Frame", "AucProfitCalc2")
-
-
-    
-    -- Selected recipe icon
-    APC.frames.mainFrame.selectedRecipeIcon = CreateFrame('Frame', 'RecipeIconFrame', APC.frames.mainFrame)
-    APC.frames.mainFrame.selectedRecipeIcon:SetWidth(40)
-    APC.frames.mainFrame.selectedRecipeIcon:SetHeight(40)
-    APC.frames.mainFrame.selectedRecipeIcon:SetPoint('TOPLEFT', APC.frames.mainFrame, 'TOPLEFT', 10, -40)
-    APC.frames.mainFrame.selectedRecipeIcon.texture = APC.frames.mainFrame.selectedRecipeIcon:CreateTexture("$parentTexture")
-    APC.frames.mainFrame.selectedRecipeIcon.texture:SetAllPoints()
+    createProfitCalculatorFrame()
+    createSelectedRecipeIcon()
 
     -- Selected recipe count
-    APC.frames.mainFrame.selectedRecipeCount = APC.frames.mainFrame.selectedRecipeIcon:CreateFontString('SelectedRecipeCount')
+    APC.frames.mainFrame.selectedRecipeCount = APC.frames.mainFrame.profitCalculator.selectedRecipeIcon:CreateFontString('SelectedRecipeCount')
     APC.frames.mainFrame.selectedRecipeCount:SetFont('Fonts\\FRIZQT__.TTF', 12, 'OUTLINE')
     APC.frames.mainFrame.selectedRecipeCount:SetTextColor(1, 1, 1, 1)
-    APC.frames.mainFrame.selectedRecipeCount:SetPoint('TOPLEFT', APC.frames.mainFrame.selectedRecipeIcon, 'TOPLEFT', 22, -22)
+    APC.frames.mainFrame.selectedRecipeCount:SetPoint('TOPLEFT', APC.frames.mainFrame.profitCalculator.selectedRecipeIcon, 'TOPLEFT', 22, -22)
 
     -- Selected recipe name
-    APC.frames.mainFrame.selectedRecipeName = APC.frames.mainFrame.selectedRecipeIcon:CreateFontString('SelectedRecipeName')
+    APC.frames.mainFrame.selectedRecipeName = APC.frames.mainFrame.profitCalculator.selectedRecipeIcon:CreateFontString('SelectedRecipeName')
     APC.frames.mainFrame.selectedRecipeName:SetFontObject('GameFontHighlight')
     APC.frames.mainFrame.selectedRecipeName:SetWidth(130)
     APC.frames.mainFrame.selectedRecipeName:SetMaxLines(1)
