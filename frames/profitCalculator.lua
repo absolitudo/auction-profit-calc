@@ -17,33 +17,33 @@ local function createSelectedRecipeIcon()
 end
 
 local function createSelectedRecipeCount()
-    APC.frames.mainFrame.profitCalculator.selectedRecipe.count = APC.frames.mainFrame.profitCalculator.selectedRecipe.icon:CreateFontString('SelectedRecipeCount')
+    APC.frames.mainFrame.profitCalculator.selectedRecipe.count = APC.frames.mainFrame.profitCalculator.selectedRecipe.icon:CreateFontString('APCSelectedRecipeCount')
     APC.frames.mainFrame.profitCalculator.selectedRecipe.count:SetFont('Fonts\\FRIZQT__.TTF', 12, 'OUTLINE')
     APC.frames.mainFrame.profitCalculator.selectedRecipe.count:SetTextColor(1, 1, 1, 1)
     APC.frames.mainFrame.profitCalculator.selectedRecipe.count:SetPoint('TOPLEFT', APC.frames.mainFrame.profitCalculator.selectedRecipe.icon, 'TOPLEFT', 22, -22)
+end
+
+local function createSelectedRecipeName()
+    APC.frames.mainFrame.profitCalculator.selectedRecipe.name = APC.frames.mainFrame.profitCalculator:CreateFontString('APCSelectedRecipeName')
+    APC.frames.mainFrame.profitCalculator.selectedRecipe.name:SetFontObject('GameFontHighlight')
+    APC.frames.mainFrame.profitCalculator.selectedRecipe.name:SetWidth(130)
+    APC.frames.mainFrame.profitCalculator.selectedRecipe.name:SetMaxLines(1)
+    APC.frames.mainFrame.profitCalculator.selectedRecipe.name:SetJustifyH('LEFT')
+    APC.frames.mainFrame.profitCalculator.selectedRecipe.name:SetTextColor(1, 0.8, 0, 1)
+    APC.frames.mainFrame.profitCalculator.selectedRecipe.name:SetPoint('TOPLEFT', APC.frames.mainFrame.profitCalculator, 'TOPLEFT', 55, -45)
 end
 
 local function createSelectedRecipeFrame()
     APC.frames.mainFrame.profitCalculator.selectedRecipe = {}
     createSelectedRecipeIcon()
     createSelectedRecipeCount()
+    createSelectedRecipeName()
 end
 
 APC.frames.frameInitializer.ProfitCalculator = function()
     
     createProfitCalculatorFrame()
     createSelectedRecipeFrame()
-
-    
-
-    -- Selected recipe name
-    APC.frames.mainFrame.selectedRecipeName = APC.frames.mainFrame.profitCalculator.selectedRecipe.icon:CreateFontString('SelectedRecipeName')
-    APC.frames.mainFrame.selectedRecipeName:SetFontObject('GameFontHighlight')
-    APC.frames.mainFrame.selectedRecipeName:SetWidth(130)
-    APC.frames.mainFrame.selectedRecipeName:SetMaxLines(1)
-    APC.frames.mainFrame.selectedRecipeName:SetJustifyH('LEFT')
-    APC.frames.mainFrame.selectedRecipeName:SetTextColor(1, 0.8, 0, 1)
-    APC.frames.mainFrame.selectedRecipeName:SetPoint('TOPLEFT', APC.frames.mainFrame, 'TOPLEFT', 55, -45)
 
     --Price box container
     APC.frames.mainFrame.recipePriceContainer = CreateFrame("Frame", 'RecipePriceContainer', APC.frames.mainFrame)
