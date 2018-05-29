@@ -35,7 +35,7 @@ end
 
 
 local function selectedRecipePriceContainer()
-    APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer = CreateFrame("Frame", 'RecipePriceContainer', APC.frames.mainFrame)
+    APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer = CreateFrame("Frame", 'APCSelectedRecipePriceContainer', APC.frames.mainFrame)
     APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer:SetWidth(170)
     APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer:SetHeight(20)
     APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer:SetPoint('TOPLEFT', APC.frames.mainFrame, 'TOPLEFT', 165, -70)
@@ -71,13 +71,13 @@ local function selectedRecipePriceContainer()
 end
 
 local function selectedRecipePriceSelection()
-    APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer.selectRecipePriceButton = selectBox:Create("SelectRecipePriceButton", APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer, 120, function(self) APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer:Update('price selection')  end, APC.priceList, APC.defaultPrice)
+    APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer.selectRecipePriceButton = selectBox:Create("APCSelectedRecipePriceContainerButton", APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer, 120, function(self) APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer:Update('price selection')  end, APC.priceList, APC.defaultPrice)
     APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer.selectRecipePriceButton:UpdateValue()
     APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer.selectRecipePriceButton:SetPoint("TOPLEFT", APC.frames.mainFrame, "TOPLEFT", 173, -37)
 end
 
 local function selectedRecipePriceBox()
-    APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer.APCPriceBox = CreateFrame("Frame", 'APCPriceBox', APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer, "MoneyInputFrameTemplate")
+    APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer.APCPriceBox = CreateFrame("Frame", '$parentPriceBox', APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer, "MoneyInputFrameTemplate")
     APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer.APCPriceBox:SetPoint("TOPLEFT", APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer, "TOPLEFT", 0, 0)
     MoneyInputFrame_SetOnValueChangedFunc(APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer.APCPriceBox, function() APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer:Update('price change') end)
 end
@@ -113,7 +113,7 @@ local function displayProfitFrame()
 end
 
 local function displayProfitText()
-     APC.frames.mainFrame.profitCalculator.displayProfit.text = APC.frames.mainFrame.profitCalculator.displayProfit:CreateFontString('APCDisplayProfitText')
+     APC.frames.mainFrame.profitCalculator.displayProfit.text = APC.frames.mainFrame.profitCalculator.displayProfit:CreateFontString('$parentText')
      APC.frames.mainFrame.profitCalculator.displayProfit.text:SetFontObject('GameFontHighlight')
      APC.frames.mainFrame.profitCalculator.displayProfit.text:SetTextColor(1, 1, 1, 1)
      APC.frames.mainFrame.profitCalculator.displayProfit.text:SetPoint('LEFT', APC.frames.mainFrame.profitCalculator.displayProfit, 'LEFT', 10, 0)
@@ -126,7 +126,7 @@ local function displayProfitGold()
     APC.frames.mainFrame.profitCalculator.displayProfit.gold:SetHeight(20)
     APC.frames.mainFrame.profitCalculator.displayProfit.gold:SetPoint('LEFT', APC.frames.mainFrame.profitCalculator.displayProfit, 'LEFT', 120, 0)
 
-    APC.frames.mainFrame.profitCalculator.displayProfit.gold.text = APC.frames.mainFrame.profitCalculator.displayProfit.gold:CreateFontString('APCDisplayProfitGoldText')
+    APC.frames.mainFrame.profitCalculator.displayProfit.gold.text = APC.frames.mainFrame.profitCalculator.displayProfit.gold:CreateFontString('$parentText')
     APC.frames.mainFrame.profitCalculator.displayProfit.gold.text:SetFontObject('GameFontHighlight')
     APC.frames.mainFrame.profitCalculator.displayProfit.gold.text:SetTextColor(1, 1, 1, 1)
     APC.frames.mainFrame.profitCalculator.displayProfit.gold.text:SetPoint('RIGHT', APC.frames.mainFrame.profitCalculator.displayProfit.gold, 'RIGHT', -15, 0)
@@ -148,7 +148,7 @@ local function displayProfitSilver()
     APC.frames.mainFrame.profitCalculator.displayProfit.silver:SetHeight(20)
     APC.frames.mainFrame.profitCalculator.displayProfit.silver:SetPoint('LEFT', APC.frames.mainFrame.profitCalculator.displayProfit, 'LEFT', 225, 0)
 
-    APC.frames.mainFrame.profitCalculator.displayProfit.silver.text = APC.frames.mainFrame.profitCalculator.displayProfit.gold:CreateFontString('APCDisplayProfitSilverText')
+    APC.frames.mainFrame.profitCalculator.displayProfit.silver.text = APC.frames.mainFrame.profitCalculator.displayProfit.gold:CreateFontString('$parentText')
     APC.frames.mainFrame.profitCalculator.displayProfit.silver.text:SetFontObject('GameFontHighlight')
     APC.frames.mainFrame.profitCalculator.displayProfit.silver.text:SetTextColor(1, 1, 1, 1)
     APC.frames.mainFrame.profitCalculator.displayProfit.silver.text:SetPoint('RIGHT', APC.frames.mainFrame.profitCalculator.displayProfit.silver, 'RIGHT', -15, 0)
@@ -170,7 +170,7 @@ local function displayProfitCopper()
     APC.frames.mainFrame.profitCalculator.displayProfit.copper:SetHeight(20)
     APC.frames.mainFrame.profitCalculator.displayProfit.copper:SetPoint('LEFT', APC.frames.mainFrame.profitCalculator.displayProfit, 'LEFT', 260, 0)
 
-    APC.frames.mainFrame.profitCalculator.displayProfit.copper.text = APC.frames.mainFrame.profitCalculator.displayProfit.gold:CreateFontString('APCDisplayProfitCopperText')
+    APC.frames.mainFrame.profitCalculator.displayProfit.copper.text = APC.frames.mainFrame.profitCalculator.displayProfit.gold:CreateFontString('$parentText')
     APC.frames.mainFrame.profitCalculator.displayProfit.copper.text:SetFontObject('GameFontHighlight')
     APC.frames.mainFrame.profitCalculator.displayProfit.copper.text:SetTextColor(1, 1, 1, 1)
     APC.frames.mainFrame.profitCalculator.displayProfit.copper.text:SetPoint('RIGHT', APC.frames.mainFrame.profitCalculator.displayProfit.copper, 'RIGHT', -15, 0)
