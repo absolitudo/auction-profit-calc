@@ -56,7 +56,7 @@ APC.GetAlgorithmPrice = AucAdvanced.API.GetAlgorithmValue
 
 APC.UpdateSelectedRecipeInMainFrame = function()
 
-    APC.frames.mainFrame.profitCalculator.selectedRecipeIcon.texture:SetTexture(APC.selectedRecipe.icon)
+    APC.frames.mainFrame.profitCalculator.selectedRecipe.icon.texture:SetTexture(APC.selectedRecipe.icon)
     APC.frames.mainFrame.selectedRecipeName:SetText(APC.selectedRecipe.name)
 
     APC.frames.mainFrame.recipePriceContainer.selectRecipePriceButton.value = APC.defaultPrice
@@ -66,10 +66,10 @@ APC.UpdateSelectedRecipeInMainFrame = function()
     APC.SetMoneyFrameCopper(APC.frames.mainFrame.recipePriceContainer.APCPriceBox, APC.selectedRecipe.price)
     
     if APC.selectedRecipe.count > 1 then
-        APC.frames.mainFrame.selectedRecipeCount:SetText(APC.selectedRecipe.count)
-        APC.frames.mainFrame.selectedRecipeCount:Show()
+        APC.frames.mainFrame.profitCalculator.selectedRecipe.count:SetText(APC.selectedRecipe.count)
+        APC.frames.mainFrame.profitCalculator.selectedRecipe.count:Show()
     else
-        APC.frames.mainFrame.selectedRecipeCount:Hide()
+        APC.frames.mainFrame.profitCalculator.selectedRecipe.count:Hide()
     end
 
     APC.frames.mainFrame.displayProfit.Update()
