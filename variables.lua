@@ -72,7 +72,7 @@ APC.UpdateSelectedRecipeInMainFrame = function()
         APC.frames.mainFrame.profitCalculator.selectedRecipe.count:Hide()
     end
 
-    APC.frames.mainFrame.displayProfit.Update()
+    APC.frames.mainFrame.profitCalculator.displayProfit.Update()
     
 end
 
