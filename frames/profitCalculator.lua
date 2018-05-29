@@ -2,12 +2,12 @@ local ns = (select(2, ...))
 local APC = ns
 local selectBox = LibStub:GetLibrary("SelectBox")
 
-local function createProfitCalculatorFrame()
+local function profitCalculator()
     APC.frames.mainFrame.profitCalculator = CreateFrame("Frame", "APCProfitCalculatorFrame", APC.frames.mainFrame)
     APC.frames.mainFrame.profitCalculator:SetAllPoints()
 end
 
-local function createSelectedRecipeIcon()
+local function selectedRecipeIcon()
     APC.frames.mainFrame.profitCalculator.selectedRecipe.icon = CreateFrame('Frame', 'APCSelectedRecipeIcon', APC.frames.mainFrame.profitCalculator)
     APC.frames.mainFrame.profitCalculator.selectedRecipe.icon:SetWidth(40)
     APC.frames.mainFrame.profitCalculator.selectedRecipe.icon:SetHeight(40)
@@ -16,14 +16,14 @@ local function createSelectedRecipeIcon()
     APC.frames.mainFrame.profitCalculator.selectedRecipe.icon.texture:SetAllPoints()
 end
 
-local function createSelectedRecipeCount()
+local function selectedRecipeCount()
     APC.frames.mainFrame.profitCalculator.selectedRecipe.count = APC.frames.mainFrame.profitCalculator.selectedRecipe.icon:CreateFontString('APCSelectedRecipeCount')
     APC.frames.mainFrame.profitCalculator.selectedRecipe.count:SetFont('Fonts\\FRIZQT__.TTF', 12, 'OUTLINE')
     APC.frames.mainFrame.profitCalculator.selectedRecipe.count:SetTextColor(1, 1, 1, 1)
     APC.frames.mainFrame.profitCalculator.selectedRecipe.count:SetPoint('TOPLEFT', APC.frames.mainFrame.profitCalculator.selectedRecipe.icon, 'TOPLEFT', 22, -22)
 end
 
-local function createSelectedRecipeName()
+local function selectedRecipeName()
     APC.frames.mainFrame.profitCalculator.selectedRecipe.name = APC.frames.mainFrame.profitCalculator:CreateFontString('APCSelectedRecipeName')
     APC.frames.mainFrame.profitCalculator.selectedRecipe.name:SetFontObject('GameFontHighlight')
     APC.frames.mainFrame.profitCalculator.selectedRecipe.name:SetWidth(130)
@@ -33,26 +33,15 @@ local function createSelectedRecipeName()
     APC.frames.mainFrame.profitCalculator.selectedRecipe.name:SetPoint('TOPLEFT', APC.frames.mainFrame.profitCalculator, 'TOPLEFT', 55, -45)
 end
 
-local function createSelectedRecipeFrame()
-    APC.frames.mainFrame.profitCalculator.selectedRecipe = {}
-    createSelectedRecipeIcon()
-    createSelectedRecipeCount()
-    createSelectedRecipeName()
-end
 
-APC.frames.frameInitializer.ProfitCalculator = function()
-    
-    createProfitCalculatorFrame()
-    createSelectedRecipeFrame()
-
-    --Price box container
-    APC.frames.mainFrame.recipePriceContainer = CreateFrame("Frame", 'RecipePriceContainer', APC.frames.mainFrame)
-    APC.frames.mainFrame.recipePriceContainer:SetWidth(170)
-    APC.frames.mainFrame.recipePriceContainer:SetHeight(20)
-    APC.frames.mainFrame.recipePriceContainer:SetPoint('TOPLEFT', APC.frames.mainFrame, 'TOPLEFT', 165, -70)
-    APC.frames.mainFrame.recipePriceContainer.currentPrice = 0
-    APC.frames.mainFrame.recipePriceContainer.priceChangedByUser = false
-    APC.frames.mainFrame.recipePriceContainer.Update = function(self, type)
+local function selectedRecipePriceContainer()
+    APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer = CreateFrame("Frame", 'RecipePriceContainer', APC.frames.mainFrame)
+    APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer:SetWidth(170)
+    APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer:SetHeight(20)
+    APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer:SetPoint('TOPLEFT', APC.frames.mainFrame, 'TOPLEFT', 165, -70)
+    APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer.currentPrice = 0
+    APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer.priceChangedByUser = false
+    APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer.Update = function(self, type)
         local changedPrice = MoneyInputFrame_GetCopper(self.APCPriceBox)
         if type == 'price change' and self.currentPrice ~= changedPrice then
             APC.selectedRecipe.price = changedPrice
@@ -79,16 +68,40 @@ APC.frames.frameInitializer.ProfitCalculator = function()
         APC.CalcProfit()
         APC.frames.mainFrame.displayProfit.Update()
     end
+end
 
-    -- Selected recipe price selection button
-    APC.frames.mainFrame.recipePriceContainer.selectRecipePriceButton = selectBox:Create("SelectRecipePriceButton", APC.frames.mainFrame.recipePriceContainer, 120, function(self) APC.frames.mainFrame.recipePriceContainer:Update('price selection')  end, APC.priceList, APC.defaultPrice)
-    APC.frames.mainFrame.recipePriceContainer.selectRecipePriceButton:UpdateValue()
-    APC.frames.mainFrame.recipePriceContainer.selectRecipePriceButton:SetPoint("TOPLEFT", APC.frames.mainFrame, "TOPLEFT", 173, -37)
-   
-    -- Price box
-    APC.frames.mainFrame.recipePriceContainer.APCPriceBox = CreateFrame("Frame", 'APCPriceBox', APC.frames.mainFrame.recipePriceContainer, "MoneyInputFrameTemplate")
-    APC.frames.mainFrame.recipePriceContainer.APCPriceBox:SetPoint("TOPLEFT", APC.frames.mainFrame.recipePriceContainer, "TOPLEFT", 0, 0)
-    MoneyInputFrame_SetOnValueChangedFunc(APC.frames.mainFrame.recipePriceContainer.APCPriceBox, function() APC.frames.mainFrame.recipePriceContainer:Update('price change') end)
+local function selectedRecipePriceSelection()
+    APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer.selectRecipePriceButton = selectBox:Create("SelectRecipePriceButton", APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer, 120, function(self) APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer:Update('price selection')  end, APC.priceList, APC.defaultPrice)
+    APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer.selectRecipePriceButton:UpdateValue()
+    APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer.selectRecipePriceButton:SetPoint("TOPLEFT", APC.frames.mainFrame, "TOPLEFT", 173, -37)
+end
+
+local function selectedRecipePriceBox()
+    APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer.APCPriceBox = CreateFrame("Frame", 'APCPriceBox', APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer, "MoneyInputFrameTemplate")
+    APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer.APCPriceBox:SetPoint("TOPLEFT", APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer, "TOPLEFT", 0, 0)
+    MoneyInputFrame_SetOnValueChangedFunc(APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer.APCPriceBox, function() APC.frames.mainFrame.profitCalculator.selectedRecipe.recipePriceContainer:Update('price change') end)
+end
+
+local function selectedRecipePriceDisplay()
+    selectedRecipePriceContainer()
+    selectedRecipePriceSelection()
+    selectedRecipePriceBox()
+end
+
+local function selectedRecipe()
+    APC.frames.mainFrame.profitCalculator.selectedRecipe = {}
+    selectedRecipeIcon()
+    selectedRecipeCount()
+    selectedRecipeName()
+    selectedRecipePriceDisplay()
+end
+
+
+APC.frames.frameInitializer.ProfitCalculator = function()
+    
+    profitCalculator()
+    selectedRecipe()
+    
 
     -- Display profit
     APC.frames.mainFrame.displayProfit = CreateFrame('Frame', 'APCDisplayProfit', APC.frames.mainFrame)
