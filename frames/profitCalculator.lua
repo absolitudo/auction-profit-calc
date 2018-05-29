@@ -194,38 +194,29 @@ local function displayProfit()
     displayProfitCopper()
 end
 
-APC.frames.frameInitializer.ProfitCalculator = function()
-    
-    profitCalculator()
-    selectedRecipe()
-    displayProfit()
-
-    
-
-    -- Scrollframe for reagents
-    APC.frames.mainFrame.scrollFrame = CreateFrame("ScrollFrame", "AucProfitCalcScroll", APC.frames.mainFrame, 'FauxScrollFrameTemplate')
-    APC.frames.mainFrame.scrollFrame.height = 265
-    APC.frames.mainFrame.scrollFrame.numberOfRows = 4
-    APC.frames.mainFrame.scrollFrame.rowHeight = APC.frames.mainFrame.scrollFrame.height / APC.frames.mainFrame.scrollFrame.numberOfRows
-    APC.frames.mainFrame.scrollFrame:SetWidth(310)
-    APC.frames.mainFrame.scrollFrame:SetHeight(APC.frames.mainFrame.scrollFrame.height)
-    APC.frames.mainFrame.scrollFrame:SetPoint("TOPLEFT", APC.frames.mainFrame, "TOPLEFT", 0, -116)
-    APC.frames.mainFrame.scrollFrame:SetBackdrop({
+local function reagentContainer()
+    APC.frames.mainFrame.profitCalculator.reagentContainer = CreateFrame("ScrollFrame", "$parentReagentContainer", APC.frames.mainFrame.profitCalculator, 'FauxScrollFrameTemplate')
+    APC.frames.mainFrame.profitCalculator.reagentContainer.height = 265
+    APC.frames.mainFrame.profitCalculator.reagentContainer.numberOfRows = 4
+    APC.frames.mainFrame.profitCalculator.reagentContainer.rowHeight = APC.frames.mainFrame.profitCalculator.reagentContainer.height / APC.frames.mainFrame.profitCalculator.reagentContainer.numberOfRows
+    APC.frames.mainFrame.profitCalculator.reagentContainer:SetWidth(310)
+    APC.frames.mainFrame.profitCalculator.reagentContainer:SetHeight(APC.frames.mainFrame.profitCalculator.reagentContainer.height)
+    APC.frames.mainFrame.profitCalculator.reagentContainer:SetPoint("TOPLEFT", APC.frames.mainFrame.profitCalculator, "TOPLEFT", 0, -116)
+    APC.frames.mainFrame.profitCalculator.reagentContainer:SetBackdrop({
         bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background", tile = true, tileSize = 16,
         insets = { left = 3, right = -23, top = 0, bottom = 0 },
     })
-     
-    APC.frames.mainFrame.scrollFrame.rows = {}
-    APC.frames.mainFrame.scrollFrame.Update = function(self)
-        FauxScrollFrame_Update(self, #APC.selectedRecipe.reagents, APC.frames.mainFrame.scrollFrame.numberOfRows, APC.frames.mainFrame.scrollFrame.rowHeight,  nil, nil, nil, nil, nil, nil, true)
+    APC.frames.mainFrame.profitCalculator.reagentContainer.rows = {}
+    APC.frames.mainFrame.profitCalculator.reagentContainer.Update = function(self)
+        FauxScrollFrame_Update(self, #APC.selectedRecipe.reagents, APC.frames.mainFrame.profitCalculator.reagentContainer.numberOfRows, APC.frames.mainFrame.profitCalculator.reagentContainer.rowHeight,  nil, nil, nil, nil, nil, nil, true)
 
         local offset = FauxScrollFrame_GetOffset(self)
         APC.selectedRecipe.reagents.offset = offset
-        for i = 1, APC.frames.mainFrame.scrollFrame.numberOfRows do
+        for i = 1, APC.frames.mainFrame.profitCalculator.reagentContainer.numberOfRows do
             local value = offset + i
             local row = self.rows[i]
             if value <= #APC.selectedRecipe.reagents then
-                APC.UpdateScrollFrameRow(row, APC.selectedRecipe.reagents[value])
+                APC.UpdateReagentRow(row, APC.selectedRecipe.reagents[value])
                 if not row:IsVisible() then
                     row:Show()
                 end
@@ -237,55 +228,53 @@ APC.frames.frameInitializer.ProfitCalculator = function()
         APC.frames.mainFrame.profitCalculator.displayProfit.Update()
 
     end
-    APC.frames.mainFrame.scrollFrame:SetScript("OnVerticalScroll", function(self, offset)
-        FauxScrollFrame_OnVerticalScroll(self, offset, APC.frames.mainFrame.scrollFrame.rowHeight, APC.frames.mainFrame.scrollFrame.Update)
+    APC.frames.mainFrame.profitCalculator.reagentContainer:SetScript("OnVerticalScroll", function(self, offset)
+        FauxScrollFrame_OnVerticalScroll(self, offset, APC.frames.mainFrame.profitCalculator.reagentContainer.rowHeight, APC.frames.mainFrame.profitCalculator.reagentContainer.Update)
     end)
+end
 
-    -- Reagents text for scrollframe
-    APC.frames.mainFrame.scrollFrame.title = APC.frames.mainFrame.scrollFrame:CreateFontString('ScrollFrameTitle')
-    APC.frames.mainFrame.scrollFrame.title:SetFontObject('GameFontHighlight')
-    APC.frames.mainFrame.scrollFrame.title:SetTextColor(1, 0.8, 0, 1)
-    APC.frames.mainFrame.scrollFrame.title:SetPoint('TOPLEFT', APC.frames.mainFrame.scrollFrame, 'TOPLEFT', 10, 15)
-    APC.frames.mainFrame.scrollFrame.title:SetText('Reagents:')
+local function reagentText()
+    APC.frames.mainFrame.profitCalculator.reagentContainer.text = APC.frames.mainFrame.profitCalculator.reagentContainer:CreateFontString('$parentText')
+    APC.frames.mainFrame.profitCalculator.reagentContainer.text:SetFontObject('GameFontHighlight')
+    APC.frames.mainFrame.profitCalculator.reagentContainer.text:SetTextColor(1, 0.8, 0, 1)
+    APC.frames.mainFrame.profitCalculator.reagentContainer.text:SetPoint('TOPLEFT', APC.frames.mainFrame.profitCalculator.reagentContainer, 'TOPLEFT', 10, 15)
+    APC.frames.mainFrame.profitCalculator.reagentContainer.text:SetText('Reagents:')
+end
 
-    -- Rows in scrollframe
-    for i = 1, APC.frames.mainFrame.scrollFrame.numberOfRows, 1 do
-        -- Creation of the row
-        APC.frames.mainFrame.scrollFrame.rows[i] = CreateFrame('Frame', '$parentRow' .. i, APC.frames.mainFrame.scrollFrame)
-        local currentRow = APC.frames.mainFrame.scrollFrame.rows[i]
-        currentRow:SetWidth(310)
-        currentRow:SetHeight(APC.frames.mainFrame.scrollFrame.rowHeight)
-
-        -- Reagent icon
+local function reagentRows()
+    local function reagentIcon(currentRow)
         currentRow.reagentIcon = CreateFrame('Frame', '$parentReagentIconFrame', currentRow)
         currentRow.reagentIcon:SetWidth(40)
         currentRow.reagentIcon:SetHeight(40)
         currentRow.reagentIcon:SetPoint('TOPLEFT', currentRow, 'TOPLEFT', 10, -10)
         currentRow.reagentIcon.texture = currentRow.reagentIcon:CreateTexture("$parentReagentIconTexture")
         currentRow.reagentIcon.texture:SetAllPoints()
+    end
 
-        -- Reagent count
-        currentRow.reagentCount = currentRow.reagentIcon:CreateFontString('SelectedRecipeCount')
+    local function reagentCount(currentRow)
+        currentRow.reagentCount = currentRow.reagentIcon:CreateFontString('$parentReagentCount')
         currentRow.reagentCount:SetFont('Fonts\\FRIZQT__.TTF', 12, 'OUTLINE')
         currentRow.reagentCount:SetTextColor(1, 1, 1, 1)
         currentRow.reagentCount:SetPoint('TOPLEFT', currentRow.reagentIcon, 'TOPLEFT', 22, -22)
+    end
 
-        -- Reagent name
-        currentRow.reagentName = currentRow:CreateFontString('$parentText' .. i)
+    local function reagentName(currentRow, i)
+        currentRow.reagentName = currentRow:CreateFontString('$parentReagentName' .. i)
         currentRow.reagentName:SetWidth(115)
         currentRow.reagentName:SetMaxLines(1)
         currentRow.reagentName:SetJustifyH('LEFT')
         currentRow.reagentName:SetFontObject('GameFontHighlight')
         currentRow.reagentName:SetPoint('TOPLEFT', currentRow, 'TOPLEFT', 55, -10)
+    end
 
-        -- Reagent recipe price container
-        currentRow.recipePriceContainer = CreateFrame("Frame", 'ReagentPriceContainer' .. i, currentRow)
-        currentRow.recipePriceContainer:SetWidth(170)
-        currentRow.recipePriceContainer:SetHeight(20)
-        currentRow.recipePriceContainer:SetPoint('TOPLEFT', currentRow, 'TOPLEFT', 50, -50)
-        currentRow.recipePriceContainer.currentPrice = 0
-        currentRow.recipePriceContainer.priceChangedByUser = false
-        currentRow.recipePriceContainer.Update = function(self, type)
+    local function reagentPriceContainer(currentRow, i)
+        currentRow.reagentPriceContainer = CreateFrame("Frame", '$parentReagentPriceContainer' .. i, currentRow)
+        currentRow.reagentPriceContainer:SetWidth(170)
+        currentRow.reagentPriceContainer:SetHeight(20)
+        currentRow.reagentPriceContainer:SetPoint('TOPLEFT', currentRow, 'TOPLEFT', 50, -50)
+        currentRow.reagentPriceContainer.currentPrice = 0
+        currentRow.reagentPriceContainer.priceChangedByUser = false
+        currentRow.reagentPriceContainer.Update = function(self, type)
             local changedPrice = MoneyInputFrame_GetCopper(self.APCPriceBox)
 
             local offset = 0
@@ -324,21 +313,56 @@ APC.frames.frameInitializer.ProfitCalculator = function()
             APC.frames.mainFrame.profitCalculator.displayProfit.Update()
 
         end
+    end
 
-        -- reagent price selection button
-        currentRow.recipePriceContainer.selectRecipePriceButton = selectBox:Create("SelectRecipePriceButton" .. i, currentRow, 120, function(self) currentRow.recipePriceContainer:Update('price selection') end, APC.priceList, APC.defaultPrice)
-        currentRow.recipePriceContainer.selectRecipePriceButton:UpdateValue()
-        currentRow.recipePriceContainer.selectRecipePriceButton:SetPoint("TOPLEFT", currentRow, "TOPLEFT", 160, -4)
-        
-        -- Price box
-        currentRow.recipePriceContainer.APCPriceBox = CreateFrame("Frame", 'APCPriceBox' .. i, currentRow.recipePriceContainer, "MoneyInputFrameTemplate")
-        currentRow.recipePriceContainer.APCPriceBox:SetPoint("TOPLEFT", currentRow, "TOPLEFT", 60, -30)
-        MoneyInputFrame_SetOnValueChangedFunc(currentRow.recipePriceContainer.APCPriceBox, function() currentRow.recipePriceContainer:Update('price change') end)
+    local function reagentPriceButton(currentRow, i)
+        currentRow.reagentPriceContainer.selectRecipePriceButton = selectBox:Create("APCProfitCalculatorReagentRowReagentPriceContainerButton" .. i, currentRow, 120, function(self) currentRow.reagentPriceContainer:Update('price selection') end, APC.priceList, APC.defaultPrice)
+        currentRow.reagentPriceContainer.selectRecipePriceButton:UpdateValue()
+        currentRow.reagentPriceContainer.selectRecipePriceButton:SetPoint("TOPLEFT", currentRow, "TOPLEFT", 160, -4)
+    end
+
+    local function reagentPriceBox(currentRow, i)
+        currentRow.reagentPriceContainer.APCPriceBox = CreateFrame("Frame", '$parentPriceBox' .. i, currentRow.reagentPriceContainer, "MoneyInputFrameTemplate")
+        currentRow.reagentPriceContainer.APCPriceBox:SetPoint("TOPLEFT", currentRow, "TOPLEFT", 60, -30)
+        MoneyInputFrame_SetOnValueChangedFunc(currentRow.reagentPriceContainer.APCPriceBox, function() currentRow.reagentPriceContainer:Update('price change') end)
+    end
+
+    local function reagentPriceDisplay(currentRow, i)
+        reagentPriceContainer(currentRow, i)
+        reagentPriceButton(currentRow, i)
+        reagentPriceBox(currentRow, i)
+    end
+
+    for i = 1, APC.frames.mainFrame.profitCalculator.reagentContainer.numberOfRows, 1 do
+        APC.frames.mainFrame.profitCalculator.reagentContainer.rows[i] = CreateFrame('Frame', '$parentRow' .. i, APC.frames.mainFrame.profitCalculator.reagentContainer)
+        local currentRow = APC.frames.mainFrame.profitCalculator.reagentContainer.rows[i]
+        currentRow:SetWidth(310)
+        currentRow:SetHeight(APC.frames.mainFrame.profitCalculator.reagentContainer.rowHeight)
+
+        reagentIcon(currentRow)
+        reagentCount(currentRow)
+        reagentName(currentRow, i)
+        reagentPriceDisplay(currentRow, i)
 
         if i == 1 then 
-            currentRow:SetPoint("TOPLEFT", APC.frames.mainFrame.scrollFrame, 'TOPLEFT' , 0, 0)
+            currentRow:SetPoint("TOPLEFT", APC.frames.mainFrame.profitCalculator.reagentContainer, 'TOPLEFT' , 0, 0)
         else 
-            currentRow:SetPoint("TOPLEFT", 'AucProfitCalcScrollRow' .. i - 1 , 'BOTTOMLEFT')
+            currentRow:SetPoint("TOPLEFT", 'APCProfitCalculatorFrameReagentContainerRow' .. i - 1 , 'BOTTOMLEFT')
         end
     end
+end
+
+local function displayReagents()
+    reagentContainer()
+    reagentText()
+    reagentRows()
+end
+
+APC.frames.frameInitializer.ProfitCalculator = function()
+    
+    profitCalculator()
+    selectedRecipe()
+    displayProfit()
+    displayReagents()
+
 end

@@ -12,7 +12,7 @@ local function createMainFrame()
     APC.frames.mainFrame.UpdateSelectedRecipeView = function(self)
         APC.CalcProfit()
         APC.UpdateSelectedRecipeInMainFrame()
-        FauxScrollFrame_OnVerticalScroll(APC.frames.mainFrame.scrollFrame, 0, APC.frames.mainFrame.scrollFrame.rowHeight, APC.frames.mainFrame.scrollFrame.Update)
+        FauxScrollFrame_OnVerticalScroll(APC.frames.mainFrame.profitCalculator.reagentContainer, 0, APC.frames.mainFrame.profitCalculator.reagentContainer.rowHeight, APC.frames.mainFrame.profitCalculator.reagentContainer.Update)
     end
     APC.frames.mainFrame.ShowFrame = function(self)
         APC.frames.mainFrame:SetPoint("TOPLEFT", TradeSkillFrame, "TOPRIGHT")

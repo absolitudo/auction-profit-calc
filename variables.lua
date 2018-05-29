@@ -76,15 +76,15 @@ APC.UpdateSelectedRecipeInMainFrame = function()
     
 end
 
-APC.UpdateScrollFrameRow = function(row, reagentInfo)
+APC.UpdateReagentRow = function(row, reagentInfo)
     row.reagentName:SetText(reagentInfo.name)
     row.reagentIcon.texture:SetTexture(reagentInfo.icon)
 
-    row.recipePriceContainer.selectRecipePriceButton.value = APC.defaultPrice
-    row.recipePriceContainer.selectRecipePriceButton:UpdateValue()
+    row.reagentPriceContainer.selectRecipePriceButton.value = APC.defaultPrice
+    row.reagentPriceContainer.selectRecipePriceButton:UpdateValue()
     
-    row.recipePriceContainer.priceChangedByUser = false
-    APC.SetMoneyFrameCopper(row.recipePriceContainer.APCPriceBox, reagentInfo.price)
+    row.reagentPriceContainer.priceChangedByUser = false
+    APC.SetMoneyFrameCopper(row.reagentPriceContainer.APCPriceBox, reagentInfo.price)
 
     if reagentInfo.count > 1 then
         row.reagentCount:SetText(reagentInfo.count)
