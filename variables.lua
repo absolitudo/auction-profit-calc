@@ -5,7 +5,7 @@ APC.defaultPrice = 'market'
 APC.updateOnShow = false
 
 APC.frames = {
-    mainFrame = {}
+    frameInitializer = {}
 }
 
 APC.priceList = {

@@ -6,6 +6,10 @@
 
 libCheck.lua
 variables.lua
-frames\mainFrame.xml
+
+frames\mainFrame.lua
+frames\profitCalculator.lua
+frames\InitFrames.lua
+
 apcEvents.lua
 core.lua
