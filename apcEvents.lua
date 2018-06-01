@@ -9,7 +9,7 @@ hooksecurefunc(processors, 'scanfinish', function()
 
     if APC.frames.mainFrame:IsShown() then
         APC.frames.mainFrame:UpdateSelectedRecipeView()
-        APC.frames.mainFrame.scrollFrame:Update()
+        APC.frames.mainFrame.profitCalculator.reagentContainer:Update()
     else
         APC.updateOnShow = true
     end
@@ -25,7 +25,7 @@ local function TradeSkillRecipeSelectionHook(recipeIndex)
             end
         elseif APC.updateOnShow then
             APC.frames.mainFrame:UpdateSelectedRecipeView()
-            APC.frames.mainFrame.scrollFrame:Update()
+            APC.frames.mainFrame.profitCalculator.reagentContainer:Update()
             APC.updateOnShow = false
         end
     end
